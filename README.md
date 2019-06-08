@@ -1,5 +1,5 @@
 # bulletspace-game
 
-#Necessary Settings
+#Necessary Settings  
 Resolution: 800 x 600  
 Quality: Ultra
