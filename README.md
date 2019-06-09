@@ -1,5 +1,17 @@
 # bulletspace-game
+CompFun2 Final Project  
 
-# Necessary Settings  
-Resolution: 800 x 600  
-Quality: Ultra
+Bullethell space game
+
+## Controls
+**Space** - Shoot  
+**W** - Move Up  
+**S** - Move Down  
+**A** - Move Left  
+**D** - Move Right  
+**F** - Suicide  
+**E** - Activate Shield  
+**Esc** - Quit  
+
+### Credits
+- My CompFun2 Professor
