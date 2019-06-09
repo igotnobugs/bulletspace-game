@@ -22,8 +22,8 @@ GameObject:
   - component: {fileID: 212689424743441292}
   - component: {fileID: 50627662635223660}
   - component: {fileID: 70610256852235340}
+  - component: {fileID: 114070422718379174}
   - component: {fileID: 114711179885129040}
-  - component: {fileID: 114404887943669886}
   - component: {fileID: 114351523608454224}
   - component: {fileID: 82748763811662466}
   m_Layer: 10
@@ -176,6 +176,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &114070422718379174
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1698533639451196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e0e18779dc0c44fa299df5e493cfaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fAiDelay: 0
+  iMovementStage: 0
 --- !u!114 &114351523608454224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -200,25 +213,6 @@ MonoBehaviour:
   iHealth: 2000
   fOrigFireRate: 0
   bAlive: 1
---- !u!114 &114404887943669886
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1698533639451196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e537382fd67e86f419663c6208c4b58b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fGlobalDelay: 0
-  fEnemyAround: 0
-  fAiDelay: 0
-  iTime: 0
-  iGlobalDelay: 0
-  iGlobalStage: 0
-  iMovementStage: 0
-  bEventRunning: 0
 --- !u!114 &114711179885129040
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -23,7 +23,6 @@ public class STGFramework : MonoBehaviour {
 
     private float fShootTimeAc = 0.0f, fShootSoundTimeAc = 0.0f;
     private float fAngle = 0;
-    private bool bReachedLimitLeft, bReachedLimitRight, bReachedLimitUp, bReachedLimitDown;
 
     private Canvas cSTGDialogueCanvas;
     private GameObject oSTGPortraitImage;
@@ -33,8 +32,6 @@ public class STGFramework : MonoBehaviour {
     public int iRep;
 
     public Rigidbody2D rPlayer;
-
-
 
     // Use this for initialization
     void Start() {
@@ -55,144 +52,106 @@ public class STGFramework : MonoBehaviour {
     #endregion
 
     #region -----------  Player Controls
-    public void PlayerShipMoveLeft()
+    ///<summary>
+    ///Allow object to be moved to be moved by the player.
+    ///</summary> 
+    public void PlayerShipMovement(KeyCode LeftKey, KeyCode RightKey, KeyCode UpKey, KeyCode DownKey, Vector2 BottomLeftCorner, Vector2 UpperRightCorner, bool bEnabled)
     {
-        if (bPlayerControlEnabled == true)
-        {
-            //Left 0 
-            if (((Input.GetKeyDown(KeyCode.A)) && (fHDirection >= 0) ||
-                (Input.GetKey(KeyCode.A)) && (Input.GetKeyUp(KeyCode.D))) && 
-                (!bReachedLimitLeft))
-            {
-                fHDirection = -1.0f;
-                Quaternion target = Quaternion.Euler(0, -60, 0);
-                this.transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 50.0f);
-            } 
-        }
-    }
+        bool bReachedLimitLeft, bReachedLimitRight, bReachedLimitUp, bReachedLimitDown;
+        //this.bPlayerControlEnabled = bEnabled;
 
-    public void PlayerShipMoveRight()
-    {
-        if (bPlayerControlEnabled == true)
-        {
-            //Right 1
-            if (((Input.GetKeyDown(KeyCode.D)) && (fHDirection <= 0) ||
-                (Input.GetKey(KeyCode.D)) && (Input.GetKeyUp(KeyCode.A))) &&
-                (!bReachedLimitRight))
-            {
-                fHDirection = 1.0f;
-                Quaternion target = Quaternion.Euler(0, 60, 0);
-                this.transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 50.0f);
-            }
-        }      
-    }
+        if (this.transform.position.x < BottomLeftCorner.x)
+        {bReachedLimitLeft = true;}
+        else {bReachedLimitLeft = false;}
 
-    public void PlayerShipMoveDown()
-    {
-        if (bPlayerControlEnabled == true)
-        {
-            //Down 2
-            if (((Input.GetKeyDown(KeyCode.S)) && (fVDirection >= 0) ||
-                (Input.GetKey(KeyCode.S)) && (Input.GetKeyUp(KeyCode.W))) &&
-                (!bReachedLimitDown))
+        if (this.transform.position.x > UpperRightCorner.x)
+        {bReachedLimitRight = true;}
+        else {bReachedLimitRight = false;}
 
-            {
-                fVDirection = -1.0f;
-            }
-        }
-    }
+        if (this.transform.position.y > UpperRightCorner.y)
+        {bReachedLimitUp = true;}
+        else {bReachedLimitUp = false;}
 
-    public void PlayerShipMoveUp()
-    {
-        if (bPlayerControlEnabled == true)
-        {
-            //Up 3
-            if (((Input.GetKeyDown(KeyCode.W)) && (fVDirection <= 0) ||
-                (Input.GetKey(KeyCode.W)) && (Input.GetKeyUp(KeyCode.S))) &&
-                (!bReachedLimitUp))
-            {
-                fVDirection = 1.0f;
-            }
-        }
-    }
+        if (this.transform.position.y < BottomLeftCorner.y)
+        {bReachedLimitDown = true;}
+        else {bReachedLimitDown = false;}
 
-    public void PlayerShipNotMoving(Vector2 BottomLeftCorner, Vector2 UpperRightCorner)
-    {
-        if (rPlayer.transform.position.x < BottomLeftCorner.x)
-        {
-            bReachedLimitLeft = true;
-        }
-        else
-        {
-            bReachedLimitLeft = false;
-        }
-
-        if (rPlayer.transform.position.x > UpperRightCorner.x)
-        {
-            bReachedLimitRight = true;
-        }
-        else
-        {
-            bReachedLimitRight = false;
-        }
-
-        if (rPlayer.transform.position.y > UpperRightCorner.y)
-        {
-            bReachedLimitUp = true;
-        }
-        else
-        {
-            bReachedLimitUp = false;
-        }
-
-        if (rPlayer.transform.position.y < BottomLeftCorner.y)
-        {
-            bReachedLimitDown = true;
-        }
-        else
-        {
-            bReachedLimitDown = false;
-        }
-
-
-        if (((!Input.GetKey(KeyCode.A)) && (!Input.GetKey(KeyCode.D))) ||
-            ((rPlayer.transform.position.x <= BottomLeftCorner.x) || (rPlayer.transform.position.x >= UpperRightCorner.x)))
+        if (((!Input.GetKey(LeftKey)) && (!Input.GetKey(RightKey))) ||
+            ((this.transform.position.x <= BottomLeftCorner.x) || (this.transform.position.x >= UpperRightCorner.x)))
         {
             fHDirection = 0;
             Quaternion target = Quaternion.Euler(0, 0, 0);
             this.transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 50.0f);
         }
 
-
-        if (((!Input.GetKey(KeyCode.S)) && (!Input.GetKey(KeyCode.W))) ||
-            ((rPlayer.transform.position.y <= BottomLeftCorner.y) || (rPlayer.transform.position.y >= UpperRightCorner.y)))
+        if (((!Input.GetKey(DownKey)) && (!Input.GetKey(UpKey))) ||
+            ((this.transform.position.y <= BottomLeftCorner.y) || (this.transform.position.y >= UpperRightCorner.y)))
         {
             fVDirection = 0;
-        }                 
-    }
-
-    public void PlayerMovement(float fSpeed)
-    {
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            fVDirection = fVDirection / 2;
-            fHDirection = fHDirection / 2;
         }
 
-        rPlayer.velocity = new Vector2(fSpeed * fHDirection, fSpeed * fVDirection);      
+        if (bEnabled == true)
+        {
+            //Left 0 
+            if (((Input.GetKeyDown(LeftKey)) && (fHDirection >= 0) ||
+                (Input.GetKey(LeftKey)) && (Input.GetKeyUp(RightKey))) &&
+                (!bReachedLimitLeft))
+            {
+                fHDirection = -1.0f;
+                Quaternion target = Quaternion.Euler(0, -60, 0);
+                this.transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 50.0f);
+            }
+
+            //Right 1
+            if (((Input.GetKeyDown(RightKey)) && (fHDirection <= 0) ||
+                (Input.GetKey(RightKey)) && (Input.GetKeyUp(LeftKey))) &&
+                (!bReachedLimitRight))
+            {
+                fHDirection = 1.0f;
+                Quaternion target = Quaternion.Euler(0, 60, 0);
+                this.transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 50.0f);
+            }
+
+            //Down 2
+            if (((Input.GetKeyDown(DownKey)) && (fVDirection >= 0) ||
+                (Input.GetKey(DownKey)) && (Input.GetKeyUp(UpKey))) &&
+                (!bReachedLimitDown))
+            {
+                fVDirection = -1.0f;
+            }
+
+            //Up 3
+            if (((Input.GetKeyDown(UpKey)) && (fVDirection <= 0) ||
+                (Input.GetKey(UpKey)) && (Input.GetKeyUp(DownKey))) &&
+                (!bReachedLimitUp))
+            {
+                fVDirection = 1.0f;
+            }
+        }        
+    } 
+
+    public void PlayerShipSpeedMovement(KeyCode kBrake, float fNormSpeed, float fDivisorSpeed = 2.0f)
+    {
+        if (Input.GetKey(kBrake))
+        {
+            fVDirection = fVDirection / fDivisorSpeed;
+            fHDirection = fHDirection / fDivisorSpeed;
+        }
+
+        rPlayer.velocity = new Vector2(fNormSpeed * fHDirection, fNormSpeed * fVDirection);      
     }
 
 
-    public void EnablePlayerControls()
+    public void EnablePlayerControls(string sTag = "Player")
     {
-        GameObject Player = GameObject.FindWithTag("Player");
-        Player.GetComponent<STGFramework>().bPlayerControlEnabled = true;
+        GameObject Object = GameObject.FindWithTag(sTag);
+        Object.GetComponent<STGFramework>().bPlayerControlEnabled = true;
     }
 
-    public void DisablePlayerControls()
+    public void DisablePlayerControls(string sTag = "Player")
     {
-        GameObject Player = GameObject.FindWithTag("Player");
-        Player.GetComponent<STGFramework>().bPlayerControlEnabled = false;
+        GameObject Object = GameObject.FindWithTag(sTag);
+        Object.GetComponent<STGFramework>().bPlayerControlEnabled = false;
     }
 
     #endregion
@@ -295,12 +254,7 @@ public class STGFramework : MonoBehaviour {
             float xpos = Target.transform.position.x - this.transform.position.x;
             float ypos = Target.transform.position.y - this.transform.position.y;
             float angle = (Mathf.Atan2(ypos, xpos) * Mathf.Rad2Deg);
-
-            //float xDir = Mathf.Cos(angle);
-            //float yDir = Mathf.Sin(angle);
             this.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
-            //Quaternion target = Quaternion.Euler(0, 0, angle);
-            //this.transform.rotation = Quaternion.Slerp(transform.rotation, target, 1);
         }
     }
 
@@ -319,7 +273,6 @@ public class STGFramework : MonoBehaviour {
             ShootBullet(rBullet, xDir, yDir, fSpeed);
         }       
     }
-
 
     //Lead targets --- WIP
     public void ShootAimedLeading(Rigidbody2D rBullet, string sTarget, float fSpeed = 1.0f)

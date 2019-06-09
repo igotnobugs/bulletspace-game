@@ -22,8 +22,8 @@ GameObject:
   - component: {fileID: 212260515430155152}
   - component: {fileID: 50690538155988728}
   - component: {fileID: 61515848548894056}
+  - component: {fileID: 114007952580678010}
   - component: {fileID: 114512829775460850}
-  - component: {fileID: 114310477982049808}
   - component: {fileID: 114848870601668058}
   - component: {fileID: 82291811765038094}
   m_Layer: 10
@@ -248,7 +248,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &114310477982049808
+--- !u!114 &114007952580678010
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -256,17 +256,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1120327340713072}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e537382fd67e86f419663c6208c4b58b, type: 3}
+  m_Script: {fileID: 11500000, guid: b2e0e18779dc0c44fa299df5e493cfaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fGlobalDelay: 0
-  fEnemyAround: 0
   fAiDelay: 0
-  iTime: 0
-  iGlobalDelay: 0
-  iGlobalStage: 0
   iMovementStage: 0
-  bEventRunning: 0
 --- !u!114 &114512829775460850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9522,7 +9516,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8785147977bfd19428c0962c47c990c4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a06d8024a04801c47ba450fde7bcdfd2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

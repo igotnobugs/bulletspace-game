@@ -5,7 +5,7 @@ using UnityEngine;
 public class EVFramework : MonoBehaviour {
 
     /* EV FRAMEWORK
-    * A collection of functions for oranizing sequences
+    * A collection of functions for oranizing sequences mostly for scenes/stages
     */
 
     private STGFramework STGEngine;
@@ -13,9 +13,9 @@ public class EVFramework : MonoBehaviour {
     
 
     [HideInInspector]
-    public float fGlobalDelay, fEnemyAround, fAiDelay;
+    public float fGlobalDelay, fEnemyAround;
     [HideInInspector]
-    public int iTime, iGlobalDelay, iGlobalStage, iMovementStage;
+    public int iTime, iGlobalDelay, iGlobalStage;
     [HideInInspector]
     public bool bEventRunning;
 
@@ -88,45 +88,6 @@ public class EVFramework : MonoBehaviour {
         }
     }
 
-    #endregion
-
-    #region Events for Object Manipulation
-    //Starts Movement side of the framework
-    public void EventAIStart()
-    {
-        if (iMovementStage == 0)
-        {
-            iMovementStage = 1;
-        }
-
-        if (iMovementStage > 0)
-        {
-            //fTime += Time.deltaTime;
-            //iGlobalDelay = Mathf.RoundToInt(fTime);
-            fAiDelay += Time.deltaTime;
-            //Debug.Log(fAiDelay);
-        }
-    }
-
-    ////Use only to go back a move or advance to another move
-    public void EventMoveStart(int iMoveStage)
-    {
-        if (iMovementStage != iMoveStage)
-        {
-            iMovementStage = iMoveStage;
-        }
-    }
-
-    //Resets delay and advances the next stage, fEndTimes should be longer than other delays
-    public void EventMoveEnd(float fEndTimes)
-    {
-        if (fEndTimes < fAiDelay)
-        {
-            iMovementStage += 1;
-            fAiDelay = 0;
-            STGEngine.iRep = 0;
-        }
-    }
     #endregion
 
     #region Events for Single Spawning

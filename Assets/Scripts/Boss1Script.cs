@@ -7,7 +7,7 @@ public class Boss1Script : MonoBehaviour
 
     //Needed to work
     private STGFramework STGEngine;
-    private EVFramework EVFrames;
+    private AIFramework AIFrames;
     private float fCooldownFireRate;
     private AudioSource aAudioSource;
 
@@ -37,7 +37,7 @@ public class Boss1Script : MonoBehaviour
     void Start()
     {
         STGEngine = GetComponent<STGFramework>();
-        EVFrames = GetComponent<EVFramework>();
+        AIFrames = GetComponent<AIFramework>();
         aAudioSource = GetComponent<AudioSource>();
         this.gameObject.name = "Boss";
     }
@@ -56,54 +56,54 @@ public class Boss1Script : MonoBehaviour
         }
 
         fCooldownFireRate--;
-        EVFrames.EventAIStart();
+        AIFrames.EventAIStart();
         if (iHealth > 0)
         {
-            switch (EVFrames.iMovementStage)
+            switch (AIFrames.iMovementStage)
             {
                 case 1:
                     STGEngine.MoveTowards(new Vector2(7.2f, 7.2f), 1);
-                    EVFrames.EventMoveEnd(12.0f);
+                    AIFrames.EventMoveEnd(12.0f);
                     break;
                 case 2:
                     STGEngine.MoveTowards(new Vector2(6.2f, 7.2f), 1);
                     STGEngine.ShootAroundSwirl(rMainProjec, 20, 0.05f, 4, 1, false);
-                    EVFrames.EventMoveEnd(2.0f);
+                    AIFrames.EventMoveEnd(2.0f);
                     break;
                 case 3:
                     STGEngine.ShootAround(rMainProjec, 20, 4, 1);
-                    EVFrames.EventMoveEnd(2.0f);
+                    AIFrames.EventMoveEnd(2.0f);
                     break;
                 case 4:
                     STGEngine.MoveTowards(new Vector2(9.2f, 7.2f), 1);
                     STGEngine.ShootAroundSwirl(rMainProjec, 20, 0.05f, 4, 1, true);
-                    EVFrames.EventMoveEnd(2.0f);
+                    AIFrames.EventMoveEnd(2.0f);
                     break;
                 case 5:
                     STGEngine.ShootAround(rMainProjec, 20, 4, 1);
-                    EVFrames.EventMoveEnd(2.0f);
+                    AIFrames.EventMoveEnd(2.0f);
                     break;
                 case 6:
                     STGEngine.ShootAimed(rMainProjec, "Player", 10);
-                    EVFrames.EventMoveEnd(2.0f);
+                    AIFrames.EventMoveEnd(2.0f);
                     break;
                 case 7:
                     STGEngine.ShootAimedLeading(rMainProjec, "Player", 10);
-                    EVFrames.EventMoveEnd(2.0f);
+                    AIFrames.EventMoveEnd(2.0f);
                     break;
                 case 8:
                     STGEngine.MoveTowards(new Vector2(7.2f, 10.2f), 1);
-                    EVFrames.EventMoveEnd(2.0f);
+                    AIFrames.EventMoveEnd(2.0f);
                     break;
                 case 9:
                     STGEngine.ShootAroundSwirl(rMissileProjec, 20, 0.1f, 1, 1, false);
-                    EVFrames.EventMoveEnd(1.0f);
+                    AIFrames.EventMoveEnd(1.0f);
                     break;
                 case 10:
-                    EVFrames.EventMoveEnd(5.0f);
+                    AIFrames.EventMoveEnd(5.0f);
                     break;
                 case 11:
-                    EVFrames.EventMoveStart(2);
+                    AIFrames.EventMoveStart(2);
                     break;
             }
         }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletScript: MonoBehaviour {
 
     private STGFramework STGEngine;
-    private EVFramework EVFrames;
+    private AIFramework AIFrames;
     private AudioSource aAudioSource;
 
     public Rigidbody2D rBullet;
@@ -32,7 +32,7 @@ public class BulletScript: MonoBehaviour {
     void Start()
     {
         STGEngine = GetComponent<STGFramework>();
-        EVFrames = GetComponent<EVFramework>();
+        AIFrames = GetComponent<AIFramework>();
         aAudioSource = GetComponent<AudioSource>();
 
     }
@@ -53,8 +53,8 @@ public class BulletScript: MonoBehaviour {
 
         if (bMissile) //A Missile Type
         {
-            EVFrames.EventAIStart();
-            switch (EVFrames.iMovementStage)
+            AIFrames.EventAIStart();
+            switch (AIFrames.iMovementStage)
             {
                 case 1:
                     STGEngine.ShootAiming("Player");
@@ -65,7 +65,7 @@ public class BulletScript: MonoBehaviour {
                         aAudioSource.PlayOneShot(aReadySound, 2);
                         bMissileDeployedSound = true;
                     }
-                    EVFrames.EventMoveEnd(2);
+                    AIFrames.EventMoveEnd(2);
                     break;
                 case 2:
                     if (!bMissileShootSound)

@@ -46,8 +46,7 @@ public class Scene1 : MonoBehaviour {
     private bool bScoreAdded = false;
 
     //Character Things
-    private string sGreenAI = "<color=#21FF00>Green AI</color>";
-
+    private readonly string sGreenAI = "<color=#21FF00>Green AI</color>";
 
     //Stage Scenes
     private bool bGameStarted = false;
@@ -60,7 +59,10 @@ public class Scene1 : MonoBehaviour {
     void Start() {
         STGEngine = GetComponent<STGFramework>();
         EVFrames = GetComponent<EVFramework>();
-        aAudioSource = GetComponent<AudioSource>();   
+        aAudioSource = GetComponent<AudioSource>();
+
+        //Limit Framerate
+        Application.targetFrameRate = 60;
     }
 
     // Update is called once per frame
@@ -225,7 +227,7 @@ public class Scene1 : MonoBehaviour {
                 EVFrames.EventStageEnd(2);
                 break;
             case 15: // 1st Beat
-                STGEngine.DialogueShow(sGreenAI, "Watch out!\n\nWeird Monsters!");
+                STGEngine.DialogueShow(sGreenAI, "Watch out!\n\nPirates!");
                 EVFrames.EventSpawnA(rEnemy, new Vector2(7.2f, fTopSpawn), transform.rotation, 0, -1.0f, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
@@ -355,7 +357,7 @@ public class Scene1 : MonoBehaviour {
                 break;
             case 41: //Boss
                 GameObject Boss = GameObject.Find("Boss");
-                Boss1Script BossHealth = GameObject.Find("Boss").GetComponent<Boss1Script>();
+                //Boss1Script BossHealth = GameObject.Find("Boss").GetComponent<Boss1Script>();
 
 
                 if (Boss)

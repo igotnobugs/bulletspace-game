@@ -39,8 +39,8 @@ GameObject:
   - component: {fileID: 212940231415776278}
   - component: {fileID: 50528354997821128}
   - component: {fileID: 61127666981765424}
+  - component: {fileID: 114168785412232780}
   - component: {fileID: 114449561845116272}
-  - component: {fileID: 114550188768517772}
   - component: {fileID: 114554731839434962}
   - component: {fileID: 82540948214979336}
   m_Layer: 10
@@ -217,6 +217,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &114168785412232780
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1617881428629456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e0e18779dc0c44fa299df5e493cfaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fAiDelay: 0
+  iMovementStage: 0
 --- !u!114 &114449561845116272
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -235,25 +248,6 @@ MonoBehaviour:
   bShootSoundNow: 0
   iRep: 0
   rPlayer: {fileID: 0}
---- !u!114 &114550188768517772
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1617881428629456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e537382fd67e86f419663c6208c4b58b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fGlobalDelay: 0
-  fEnemyAround: 0
-  fAiDelay: 0
-  iTime: 0
-  iGlobalDelay: 0
-  iGlobalStage: 0
-  iMovementStage: 0
-  bEventRunning: 0
 --- !u!114 &114554731839434962
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4899,7 +4893,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: a06d8024a04801c47ba450fde7bcdfd2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8785147977bfd19428c0962c47c990c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

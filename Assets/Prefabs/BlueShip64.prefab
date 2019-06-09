@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 212040884884439044}
   - component: {fileID: 50924648409227088}
   - component: {fileID: 70002698286826370}
-  - component: {fileID: 114571089576673530}
   - component: {fileID: 114786096759446616}
   - component: {fileID: 114383418177333546}
   - component: {fileID: 114200017956864644}
@@ -219,8 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed78eefceb5127e4d8913ffa9f42632b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vBottomLeftCorner: {x: 3, y: 2.2}
-  vUpperRightCorner: {x: 11.4, y: 12}
+  vBotLeftCor: {x: 3, y: 2.5}
+  vUpRightCor: {x: 11.5, y: 12.5}
   rThisBody: {fileID: 50924648409227088}
   rProjectile: {fileID: 50942535434758880, guid: 2095a310944b08d4fafd629c65b5dfa7,
     type: 2}
@@ -236,7 +235,18 @@ MonoBehaviour:
   fOrigFireRate: 10
   fSpeed: 5
   fShieldCooldown: 0
+  fShieldCooldownMax: 2000
   iBombAmmo: 2
+  kShoot: 32
+  kLeft: 97
+  kRight: 100
+  kUp: 119
+  kDown: 115
+  kShield: 101
+  kSuicide: 102
+  kBrake: 304
+  kQuit: 27
+  bMoveable: 1
   GodMode: 0
 --- !u!114 &114383418177333546
 MonoBehaviour:
@@ -257,25 +267,6 @@ MonoBehaviour:
   aReadySound: {fileID: 0}
   aShootSound: {fileID: 0}
   iBulletDamage: 10
---- !u!114 &114571089576673530
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1055574202471634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e537382fd67e86f419663c6208c4b58b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fGlobalDelay: 0
-  fEnemyAround: 0
-  fAiDelay: 0
-  iTime: 0
-  iGlobalDelay: 0
-  iGlobalStage: 0
-  iMovementStage: 0
-  bEventRunning: 0
 --- !u!114 &114786096759446616
 MonoBehaviour:
   m_ObjectHideFlags: 1

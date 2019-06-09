@@ -13,7 +13,11 @@ public class MenuButtonScript : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
+        //Quit
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Quit();
+        }
     }
 
 

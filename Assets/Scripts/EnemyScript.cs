@@ -6,7 +6,7 @@ public class EnemyScript : MonoBehaviour {
 
     //Needed to work
     private STGFramework STGEngine;
-    private EVFramework EVFrames;
+    private AIFramework AIFrames;
     private float fCooldownFireRate; 
     private AudioSource aAudioSource;
 
@@ -29,7 +29,7 @@ public class EnemyScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
         STGEngine = GetComponent<STGFramework>();
-        EVFrames = GetComponent<EVFramework>();
+        AIFrames = GetComponent<AIFramework>();
 
         aAudioSource = GetComponent<AudioSource>();
         this.transform.rotation = Quaternion.Euler(180, 0, 0);
@@ -47,8 +47,8 @@ public class EnemyScript : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        EVFrames.EventAIStart();
-        switch (EVFrames.iMovementStage)
+        AIFrames.EventAIStart();
+        switch (AIFrames.iMovementStage)
         {
             case 1:
                 if (iHealth > 0)

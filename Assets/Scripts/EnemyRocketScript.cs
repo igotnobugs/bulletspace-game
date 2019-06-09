@@ -6,7 +6,7 @@ public class EnemyRocketScript : MonoBehaviour {
 
     //Needed to work
     private STGFramework STGEngine;
-    private EVFramework EVFrames;
+    private AIFramework AIFrames;
     private float fCooldownFireRate;
     private AudioSource aAudioSource;
 
@@ -33,7 +33,7 @@ public class EnemyRocketScript : MonoBehaviour {
     void Start()
     {
         STGEngine = GetComponent<STGFramework>();
-        EVFrames = GetComponent<EVFramework>();
+        AIFrames = GetComponent<AIFramework>();
 
         aAudioSource = GetComponent<AudioSource>();
         this.transform.rotation = Quaternion.Euler(180, 0, 0);
@@ -52,14 +52,14 @@ public class EnemyRocketScript : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        EVFrames.EventAIStart();
-        switch (EVFrames.iMovementStage)
+        AIFrames.EventAIStart();
+        switch (AIFrames.iMovementStage)
         {
             case 1:
                 if (iHealth > 0)
                 {
                     STGEngine.ShootConBullet(rMainProjec,0,0, fShipFireRate);
-                    EVFrames.EventMoveEnd(fShipFireRate + 1);
+                    AIFrames.EventMoveEnd(fShipFireRate + 1);
                 }
                 break;
             case 2:
@@ -67,7 +67,7 @@ public class EnemyRocketScript : MonoBehaviour {
                 {
                     STGEngine.ShootAimed(rSecondProjec, "Player", 5);
                     STGEngine.ShootSoundBullet(aBasicShootSound, 1);
-                    EVFrames.EventMoveEnd(0.5f);
+                    AIFrames.EventMoveEnd(0.5f);
                 }
                 break;
             case 3:
@@ -75,11 +75,11 @@ public class EnemyRocketScript : MonoBehaviour {
                 {
                     STGEngine.ShootAround(rSecondProjec, 10, 5, 1);
                     STGEngine.ShootSoundBullet(aBasicShootSound, 1);
-                    EVFrames.EventMoveEnd(1.0f);
+                    AIFrames.EventMoveEnd(1.0f);
                 }
                 break;
             case 4:
-                EVFrames.EventMoveStart(1);
+                AIFrames.EventMoveStart(1);
                 break;
         }
 

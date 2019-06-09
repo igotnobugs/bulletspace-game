@@ -9,7 +9,9 @@ public class PlayerScript : MonoBehaviour
     private STGFramework STGEngine;
     private float fCooldownFireRate;
     private AudioSource aAudioSource;
-    public Vector2 vBottomLeftCorner, vUpperRightCorner;
+    // Default 3, 2.5, 11.5, 12.5.
+    public Vector2 vBotLeftCor;
+    public Vector2 vUpRightCor;
 
     //Ship Components
     public Rigidbody2D rThisBody;
@@ -29,10 +31,23 @@ public class PlayerScript : MonoBehaviour
     public float fOrigFireRate = 20;
     public float fSpeed = 1.0f;
     public float fShieldCooldown = 0;
+    public float fShieldCooldownMax = 2000;
     private float spin = 0.5f;
     public int iBombAmmo = 2;
     private bool bBombDeployed = false;
-    
+
+    //Player Controls
+    public KeyCode kShoot = KeyCode.Space;
+    public KeyCode kLeft = KeyCode.A;
+    public KeyCode kRight = KeyCode.D;
+    public KeyCode kUp = KeyCode.W;
+    public KeyCode kDown = KeyCode.S;
+    public KeyCode kShield = KeyCode.E;
+    public KeyCode kSuicide = KeyCode.F;
+    public KeyCode kBrake = KeyCode.LeftShift;
+    public KeyCode kQuit = KeyCode.Escape;
+    public bool bMoveable = true;
+
 
     public bool GodMode;
     private float fInviTime;
@@ -51,23 +66,18 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+       
         GameObject SceneManager = GameObject.FindWithTag("SceneManager");
         Scene1 PlayerState = SceneManager.GetComponent<Scene1>();
 
         fCooldownFireRate--;
         #region Controls Code
 
-        STGEngine.PlayerShipNotMoving(vBottomLeftCorner, vUpperRightCorner);
-        STGEngine.PlayerShipMoveLeft();
-        STGEngine.PlayerShipMoveRight();
-        STGEngine.PlayerShipMoveDown();
-        STGEngine.PlayerShipMoveUp();
-        STGEngine.PlayerMovement(fSpeed);
-
+        STGEngine.PlayerShipMovement(kLeft, kRight, kUp, kDown, vBotLeftCor, vUpRightCor, bMoveable);   
+        STGEngine.PlayerShipSpeedMovement(kBrake, fSpeed);
 
         //Fire Main
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(kShoot))
         {
             if (fCooldownFireRate < 0)
             {
@@ -77,20 +87,16 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
-
-        //Fire Bomb
-        if ((Input.GetKeyDown(KeyCode.F)) && (bBombDeployed == false))
+        //Fire Bomb // Suicide for now
+        if ((Input.GetKeyDown(kSuicide)) && (bBombDeployed == false))
         {
             bBombDeployed = true;
-
         }
 
         if (bBombDeployed == true)
         {
             STGEngine.ShootAround(rCircleProjectile, 360, 20.0f);
-
             iHealth = 0;
-
             bBombDeployed = false;
         }
 
@@ -99,15 +105,18 @@ public class PlayerScript : MonoBehaviour
         {
             fShieldCooldown--;
         }
-        if ((Input.GetKeyDown(KeyCode.E)) && (fShieldCooldown <= 0))
+        if ((Input.GetKeyDown(kShield)) && (fShieldCooldown <= 0))
         {
             STGEngine.SpawnPrefab(rShield, this.transform.position, rShield.transform.rotation, 0, 0);
-            fShieldCooldown = 2000;
+            fShieldCooldown = fShieldCooldownMax;
         }
 
-        ;
+        //Quit
+        if (Input.GetKeyDown(kQuit))
+        {
+            Quit();
+        }
         #endregion
-
 
 
         if ((iHealth <= 0) && (bAlive) && (!GodMode))
@@ -137,6 +146,15 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
+    }
+
+    void Quit()
+    {
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit();
+    #endif
     }
 
     void OnCollisionEnter2D(Collision2D collision)
