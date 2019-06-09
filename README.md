@@ -15,3 +15,4 @@ Bullethell space game
 
 ### Credits
 - My CompFun2 Professor
+- Incompetech
