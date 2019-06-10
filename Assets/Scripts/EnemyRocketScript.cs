@@ -58,16 +58,16 @@ public class EnemyRocketScript : MonoBehaviour {
             case 1:
                 if (iHealth > 0)
                 {
-                    STGEngine.ShootConBullet(rMainProjec,0,0, fShipFireRate);
+                    STGEngine.ShootConBullet(rMainProjec, 0, 0, fShipFireRate);
                     AIFrames.EventMoveEnd(fShipFireRate + 1);
                 }
                 break;
             case 2:
                 if (iHealth > 0)
                 {
-                    STGEngine.ShootAimed(rSecondProjec, "Player", 5);
+                    STGEngine.ShootConAimed(rSecondProjec, "Player", 1);
                     STGEngine.ShootSoundBullet(aBasicShootSound, 1);
-                    AIFrames.EventMoveEnd(0.5f);
+                    AIFrames.EventMoveEnd(5.0f);
                 }
                 break;
             case 3:

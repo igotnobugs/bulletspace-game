@@ -251,7 +251,7 @@ public class Scene1 : MonoBehaviour
                 break;
             case 16:
                 STGEngine.DialogueHide(cDialogueCanvas);
-                //EVFrames.EventSpawnHorMulti(rEnemy, new Vector2(6.2f, fTopSpawn), transform.rotation, 0, -1.0f, 2.0f, 2, 1.0f, 0);
+                EVFrames.EventSpawnHorMulti(rEnemy, new Vector2(6.2f, fTopSpawn), transform.rotation, 0, -1.0f, 2.0f, 2, 1.0f, 0);
                 //EVFrames.EventSpawnA(rEnemy, new Vector2(6.2f, fTopSpawn), transform.rotation, 0, -1.0f, 1.0f, 0);
                 //EVFrames.EventSpawnB(rEnemy, new Vector2(8.2f, fTopSpawn), transform.rotation, 0, -1.0f, 1.0f, 0);
                 EVFrames.EventStageEnd(1);

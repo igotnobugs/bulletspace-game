@@ -77,7 +77,7 @@ public class EVFramework : MonoBehaviour
             iGlobalStage += 1;
             fGlobalDelay = 0;
 
-            bEventSpawnPlayer = false;
+            //bEventSpawnPlayer = false;
             bEventSpawnA = false;
             bEventSpawnB = false;
             bEventSpawnC = false;

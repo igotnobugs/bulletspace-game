@@ -6,20 +6,13 @@ using UnityEngine.UI;
 
 public class STGFramework : MonoBehaviour
 {
-    /* STG FRAMEWORK
-     * A collection of functions for:
-     * Player Movement and Enemy Movement
-     * Spawning and shooting
-     * Dialogue control
-     * UI control
-     * etc
-     */
+    //STG Framework
 
     private float fHDirection, fVDirection;
     private AudioSource aAudioSource;
 
     [HideInInspector]
-    public bool bPlayerControlEnabled, bShootSwirl, bShootRight = true, bShootNow = false, bShootSoundNow = false;
+    public bool bPlayerControlEnabled, bShootSwirl, bShootRight = true;
 
     private float fShootTimeAc = 0.0f, fShootSoundTimeAc = 0.0f;
     private float fAngle = 0;
@@ -184,42 +177,28 @@ public class STGFramework : MonoBehaviour
     //Shoot a burst bullet
     public void ShootConBullet(Rigidbody2D rBullet, float xDir, float yDir, float fFireRate = 10.0f, float fSpeed = 1.0f)
     {
-
         if (Time.deltaTime + fShootTimeAc > fFireRate)
         {
             fShootTimeAc = 0.0f;
-            bShootNow = true;
+            ShootBullet(rBullet, xDir, yDir, fSpeed);
         }
         else
         {
             fShootTimeAc += Time.deltaTime;
-        }
-
-        if (bShootNow)
-        {
-            ShootBullet(rBullet, xDir, yDir, fSpeed);
-            bShootNow = false;
         }
     }
 
     public void ShootSoundBullet(AudioClip aShootSound, float fFireRate = 10.0f)
     {
         aAudioSource = this.GetComponent<AudioSource>();
-
         if (Time.deltaTime + fShootSoundTimeAc > fFireRate)
         {
             fShootSoundTimeAc = 0.0f;
-            bShootSoundNow = true;
+            this.aAudioSource.PlayOneShot(aShootSound, 1.0f);
         }
         else
         {
             fShootSoundTimeAc += Time.deltaTime;
-        }
-
-        if (bShootSoundNow)
-        {
-            this.aAudioSource.PlayOneShot(aShootSound, 1.0f);
-            bShootSoundNow = false;
         }
     }
 
@@ -249,7 +228,6 @@ public class STGFramework : MonoBehaviour
     public void ShootAiming(string sTargetTag)
     {
         GameObject Target = GameObject.FindWithTag(sTargetTag);
-
         if (Target)
         {
             float xpos = Target.transform.position.x - this.transform.position.x;
@@ -263,7 +241,6 @@ public class STGFramework : MonoBehaviour
     public void ShootAimed(Rigidbody2D rBullet, string sTargetTag, float fSpeed = 1.0f)
     {
         GameObject Target = GameObject.FindWithTag(sTargetTag);
-
         if (Target)
         {
             float xpos = Target.transform.position.x - this.transform.position.x;
@@ -273,6 +250,26 @@ public class STGFramework : MonoBehaviour
             float yDir = Mathf.Sin(angle);
             ShootBullet(rBullet, xDir, yDir, fSpeed);
         }       
+    }
+
+    //Shoots aimed consecutively at target
+    public void ShootConAimed(Rigidbody2D rBullet, string sTargetTag, float fFireRate = 10.0f, float fSpeed = 5.0f)
+    {
+        GameObject Target = GameObject.FindWithTag(sTargetTag);
+        if ((Time.deltaTime + fShootTimeAc > fFireRate) && Target)
+        {
+            fShootTimeAc = 0.0f;
+            float xpos = Target.transform.position.x - this.transform.position.x;
+            float ypos = Target.transform.position.y - this.transform.position.y;
+            float angle = Mathf.Atan2(ypos, xpos);
+            float xDir = Mathf.Cos(angle);
+            float yDir = Mathf.Sin(angle);
+            ShootBullet(rBullet, xDir, yDir, fSpeed);
+        }
+        else
+        {
+            fShootTimeAc += Time.deltaTime;
+        }
     }
 
     //Lead targets --- WIP
@@ -333,21 +330,15 @@ public class STGFramework : MonoBehaviour
             {
                 fAngle -= (360.0f / iBulletCount);
             }
-            bShootNow = true;
+
+            var rad = fAngle * Mathf.Deg2Rad;
+            float x = Mathf.Sin(rad);
+            float y = Mathf.Cos(rad);
+            ShootBullet(rBullet, x, y, fSpeed);
         }
         else
         {
             fShootTimeAc += Time.deltaTime;
-        }
-
-        if (bShootNow)
-        {
-            var rad = fAngle * Mathf.Deg2Rad;
-            float x = Mathf.Sin(rad);
-            float y = Mathf.Cos(rad);
-
-            ShootBullet(rBullet, x, y, fSpeed);
-            bShootNow = false;
         }
     }
     #endregion
