@@ -116,7 +116,7 @@ public class Boss1Script : MonoBehaviour
             rThisBody.bodyType = RigidbodyType2D.Dynamic;
             this.transform.rotation = Quaternion.Euler(180, 0, fDeathSpin);
             gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
-            //Destroy(gameObject, 1.0f);
+            Destroy(gameObject, 1.0f);
         }
 
     }
@@ -129,7 +129,7 @@ public class Boss1Script : MonoBehaviour
         {
             iHealth -= TargetStatus.iBulletDamage;
             aAudioSource.PlayOneShot(aBasicHitSound, 0.8f);
-            STGEngine.SpawnPrefab(rFXHit, Bullet.transform.position, Bullet.transform.rotation, 0, 0, 0);
+            STGEngine.SpawnPrefab(rFXHit, Bullet.transform.position, Bullet.transform.rotation, new Vector2(0, 0) , 0);
         }
     }
 }

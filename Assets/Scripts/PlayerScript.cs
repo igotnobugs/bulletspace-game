@@ -32,6 +32,10 @@ public class PlayerScript : MonoBehaviour
     private float spin = 0.5f;
     public int iBombAmmo = 2;
     private bool bBombDeployed = false;
+    public float fHeatSink;
+    public float fMaxHeatSink = 1000;
+    private bool bHeatCooldown = false;
+    public float fHeatCooldown = 100;
 
     //Player Controls
     // Default 3, 2.5, 11.5, 12.5.
@@ -47,7 +51,6 @@ public class PlayerScript : MonoBehaviour
     public KeyCode kBrake = KeyCode.LeftShift;
     public KeyCode kQuit = KeyCode.Escape;
     public bool bMoveable = true;
-
 
     public bool GodMode;
     private float fInviTime;
@@ -70,6 +73,28 @@ public class PlayerScript : MonoBehaviour
         GameObject SceneManager = GameObject.FindWithTag("SceneManager");
         Scene1 PlayerState = SceneManager.GetComponent<Scene1>();
 
+        if (fHeatSink > fMaxHeatSink)
+        {
+            bHeatCooldown = true;
+        }
+
+        if (bHeatCooldown)
+        {
+            fHeatCooldown--;
+        }
+
+        if (fHeatCooldown < 0)
+        {
+            bHeatCooldown = false;
+            fHeatCooldown = 100;
+        }
+
+        if (fHeatSink > 0)
+        {
+            fHeatSink -= 6.0f;
+        }
+
+
         fCooldownFireRate--;
         #region Controls Code
 
@@ -79,11 +104,12 @@ public class PlayerScript : MonoBehaviour
         //Fire Main
         if (Input.GetKey(kShoot))
         {
-            if (fCooldownFireRate < 0)
+            if ((fCooldownFireRate < 0)  && (!bHeatCooldown))
             {
                 STGEngine.ShootOscBullet(rProjectile, 0, 1.0f, 0.2f, 15.0f);
                 aAudioSource.PlayOneShot(aBasicShootSound, 1);
                 fCooldownFireRate = fCooldownFireRateMax;
+                fHeatSink += 100;
             }
         }
 
@@ -107,14 +133,8 @@ public class PlayerScript : MonoBehaviour
         }
         if ((Input.GetKeyDown(kShield)) && (fShieldCooldown <= 0))
         {
-            STGEngine.SpawnPrefab(rShield, this.transform.position, rShield.transform.rotation, 0, 0);
+            STGEngine.SpawnPrefab(rShield, this.transform.position, rShield.transform.rotation, new Vector2(0, 0), 0);
             fShieldCooldown = fShieldCooldownMax;
-        }
-
-        //Quit
-        if (Input.GetKeyDown(kQuit))
-        {
-            Quit();
         }
         #endregion
 
@@ -148,15 +168,6 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    void Quit()
-    {
-    #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-    #else
-        Application.Quit();
-    #endif
-    }
-
     void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject Bullet = collision.gameObject;
@@ -170,7 +181,7 @@ public class PlayerScript : MonoBehaviour
             PlayerState.PlayerStateImage.color = Color.yellow;
             iHealth -= TargetStatus.iBulletDamage;
             aAudioSource.PlayOneShot(aBasicHitSound, 1.0f);
-            STGEngine.SpawnPrefab(rFXHit, this.transform.position, this.transform.rotation, 0, 0, 0);
+            STGEngine.SpawnPrefab(rFXHit, this.transform.position, this.transform.rotation, new Vector2(0, 0), 0);
             fInviTime = 30;
             bHitOnce = true;
         }
@@ -190,7 +201,7 @@ public class PlayerScript : MonoBehaviour
             PlayerState.PlayerStateImage.color = Color.yellow;
             iHealth -= TargetStatus.iBulletDamage;
             aAudioSource.PlayOneShot(aBasicHitSound, 1.0f);
-            STGEngine.SpawnPrefab(rFXHit, this.transform.position, this.transform.rotation, 0, 0, 0);
+            STGEngine.SpawnPrefab(rFXHit, this.transform.position, this.transform.rotation, new Vector2(0, 0), 0);
             fInviTime = 30;
             bHitOnce = true;
         }
@@ -201,7 +212,7 @@ public class PlayerScript : MonoBehaviour
             PlayerState.PlayerStateImage.color = Color.yellow;
             iHealth -= 10;
             aAudioSource.PlayOneShot(aBasicHitSound, 1.0f);
-            STGEngine.SpawnPrefab(rFXHit, this.transform.position, this.transform.rotation, 0, 0, 0);
+            STGEngine.SpawnPrefab(rFXHit, this.transform.position, this.transform.rotation, new Vector2(0, 0), 0);
             fInviTime = 30;
             bHitOnce = true;
         }

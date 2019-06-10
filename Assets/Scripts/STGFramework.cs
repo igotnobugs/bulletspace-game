@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using GameUtils;
 
 public class STGFramework : MonoBehaviour
 {
     //STG Framework
-
     private float fHDirection, fVDirection;
     private AudioSource aAudioSource;
 
@@ -151,36 +151,36 @@ public class STGFramework : MonoBehaviour
     #endregion
 
     #region -----------  Spawning Commands
-    public void SpawnPlayer(Rigidbody2D rObject, Vector2 vLocation, Quaternion Rotation, float xDirection, float yDirection, float fAdditionalSpeed = 0)
+    public void SpawnPlayer(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, Vector2 vDir, float fAddSpd = 0)
     {
-        Rigidbody2D instObject = Instantiate(rObject, vLocation, Rotation);
-        instObject.velocity = transform.TransformDirection(new Vector2(xDirection * fAdditionalSpeed, yDirection * fAdditionalSpeed));
+        Rigidbody2D instObject = Instantiate(rObj, vLoc, qRot);
+        instObject.velocity = transform.TransformDirection(new Vector2(vDir.x * fAddSpd, vDir.y * fAddSpd));
         instObject.name = "Player";
     }
 
-    public void SpawnPrefab(Rigidbody2D rObject, Vector2 vLocation, Quaternion Rotation, float xDirection, float yDirection, float fAdditionalSpeed = 0)
+    public void SpawnPrefab(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, Vector2 vDir, float fAddSpd = 0)
     {
-        Rigidbody2D instObject = Instantiate(rObject, vLocation, Rotation);
-        instObject.velocity = transform.TransformDirection(new Vector2(xDirection * fAdditionalSpeed, yDirection * fAdditionalSpeed));
+        Rigidbody2D instObject = Instantiate(rObj, vLoc, qRot);
+        instObject.velocity = transform.TransformDirection(new Vector2(vDir.x * fAddSpd, vDir.y * fAddSpd));
     }
     #endregion
 
     #region -----------  Shooting Commands
 
     //Shoot a bullet
-    public void ShootBullet(Rigidbody2D rBullet, float xDir, float yDir, float fSpeed = 1.0f)
+    public void ShootBullet(Rigidbody2D rBullet, Vector2 vDir, float fSpeed = 1.0f)
     {
         Rigidbody2D instBullet = Instantiate(rBullet, transform.position, transform.rotation);
-        instBullet.velocity = new Vector2(xDir * fSpeed, yDir * fSpeed);
+        instBullet.velocity = new Vector2(vDir.x * fSpeed, vDir.y * fSpeed);
     }
 
     //Shoot a burst bullet
-    public void ShootConBullet(Rigidbody2D rBullet, float xDir, float yDir, float fFireRate = 10.0f, float fSpeed = 1.0f)
+    public void ShootConBullet(Rigidbody2D rBullet, Vector2 vDir, float fFireRate = 10.0f, float fSpeed = 1.0f)
     {
         if (Time.deltaTime + fShootTimeAc > fFireRate)
         {
             fShootTimeAc = 0.0f;
-            ShootBullet(rBullet, xDir, yDir, fSpeed);
+            ShootBullet(rBullet, vDir, fSpeed);
         }
         else
         {
@@ -246,9 +246,10 @@ public class STGFramework : MonoBehaviour
             float xpos = Target.transform.position.x - this.transform.position.x;
             float ypos = Target.transform.position.y - this.transform.position.y;
             float angle = Mathf.Atan2(ypos, xpos);
-            float xDir = Mathf.Cos(angle);
-            float yDir = Mathf.Sin(angle);
-            ShootBullet(rBullet, xDir, yDir, fSpeed);
+            Vector2 vDir;
+            vDir.x = Mathf.Cos(angle);
+            vDir.y = Mathf.Sin(angle);
+            ShootBullet(rBullet, vDir, fSpeed);
         }       
     }
 
@@ -262,9 +263,10 @@ public class STGFramework : MonoBehaviour
             float xpos = Target.transform.position.x - this.transform.position.x;
             float ypos = Target.transform.position.y - this.transform.position.y;
             float angle = Mathf.Atan2(ypos, xpos);
-            float xDir = Mathf.Cos(angle);
-            float yDir = Mathf.Sin(angle);
-            ShootBullet(rBullet, xDir, yDir, fSpeed);
+            Vector2 vDir;
+            vDir.x = Mathf.Cos(angle);
+            vDir.y = Mathf.Sin(angle);
+            ShootBullet(rBullet, vDir, fSpeed);
         }
         else
         {
@@ -308,9 +310,10 @@ public class STGFramework : MonoBehaviour
             for (float angle = 0.0f; angle < 360.0f; angle += (360.0f / iBulletCount))
             {
                 var rad = angle * Mathf.Deg2Rad;
-                float x = Mathf.Sin(rad);
-                float y = Mathf.Cos(rad);
-                ShootBullet(rBullet, x, y, fSpeed);
+                Vector2 vDir;
+                vDir.x = Mathf.Sin(rad);
+                vDir.y = Mathf.Cos(rad);
+                ShootBullet(rBullet, vDir, fSpeed);
             }
             iRep++;
         }
@@ -332,9 +335,10 @@ public class STGFramework : MonoBehaviour
             }
 
             var rad = fAngle * Mathf.Deg2Rad;
-            float x = Mathf.Sin(rad);
-            float y = Mathf.Cos(rad);
-            ShootBullet(rBullet, x, y, fSpeed);
+            Vector2 vDir;
+            vDir.x = Mathf.Sin(rad);
+            vDir.y = Mathf.Cos(rad);
+            ShootBullet(rBullet, vDir, fSpeed);
         }
         else
         {
@@ -399,19 +403,31 @@ public class STGFramework : MonoBehaviour
         UIText.text = sText;
     }
 
-    public void UIBossHealthPanelShow(GameObject pBossHealthPanel)
+    public void UIPanelShow(GameObject pUIPanel)
     {
-        pBossHealthPanel.gameObject.SetActive(true);
+        pUIPanel.gameObject.SetActive(true);
     }
 
-    public void UIBossHealthPanelHide(GameObject pBossHealthPanel)
+    public void UIPanelHide(GameObject pUIPanel)
     {
-        pBossHealthPanel.gameObject.SetActive(false);
+        pUIPanel.gameObject.SetActive(false);
     }
 
-    public void UIBossHealthBarSize(GameObject pBossHealthBar, float percentage)
+    public void UIBarSize(GameObject pBar, Vector2 vScale)
     {
-        pBossHealthBar.transform.localScale = new Vector2(percentage, 1);
+        pBar.transform.localScale = vScale;
     }
     #endregion
+
+    /// <summary>
+    /// Quit Game
+    /// </summary>
+    public void Quit()
+    {
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit();
+    #endif
+    }
 }

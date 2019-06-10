@@ -138,8 +138,6 @@ MonoBehaviour:
   bPlayerControlEnabled: 0
   bShootSwirl: 0
   bShootRight: 1
-  bShootNow: 0
-  bShootSoundNow: 0
   iRep: 0
   rPlayer: {fileID: 50924648409227088}
 --- !u!114 &114383418177333546

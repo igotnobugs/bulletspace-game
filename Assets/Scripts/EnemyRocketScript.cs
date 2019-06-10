@@ -58,7 +58,7 @@ public class EnemyRocketScript : MonoBehaviour {
             case 1:
                 if (iHealth > 0)
                 {
-                    STGEngine.ShootConBullet(rMainProjec, 0, 0, fShipFireRate);
+                    STGEngine.ShootConBullet(rMainProjec, new Vector2(0, 0), fShipFireRate);
                     AIFrames.EventMoveEnd(fShipFireRate + 1);
                 }
                 break;
@@ -115,14 +115,14 @@ public class EnemyRocketScript : MonoBehaviour {
         {
             iHealth -= TargetStatus.iBulletDamage;
             aAudioSource.PlayOneShot(aBasicHitSound, 1.0f);
-            STGEngine.SpawnPrefab(rFXHit, Bullet.transform.position, Bullet.transform.rotation, 0, 0, 0);
+            STGEngine.SpawnPrefab(rFXHit, Bullet.transform.position, Bullet.transform.rotation, new Vector2(0, 0), 0);
         }
 
         if (collision.gameObject.tag == "Shield")
         {
             iHealth = -100;
             aAudioSource.PlayOneShot(aBasicHitSound, 1.0f);
-            STGEngine.SpawnPrefab(rFXHit, Bullet.transform.position, Bullet.transform.rotation, 0, 0, 0);
+            STGEngine.SpawnPrefab(rFXHit, Bullet.transform.position, Bullet.transform.rotation, new Vector2(0, 0), 0);
         }
     }
 }

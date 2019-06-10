@@ -48,8 +48,8 @@ public class RubbleScript : MonoBehaviour {
             STGEngine.ScoretoAddtoCounter(ScoreCounter.tScoreCounter, 1);
             if (!bThisIsSmallRubble)
             {
-                STGEngine.SpawnPrefab(rSmallRubble, this.transform.position, this.transform.rotation, 1, -1, 1);
-                STGEngine.SpawnPrefab(rSmallRubble, this.transform.position, this.transform.rotation, -1, -1, 1);
+                STGEngine.SpawnPrefab(rSmallRubble, this.transform.position, this.transform.rotation, new Vector2(1, -1), 1);
+                STGEngine.SpawnPrefab(rSmallRubble, this.transform.position, this.transform.rotation, new Vector2(-1, -1), 1);
             }
             bAlive = false;
         }
@@ -72,14 +72,14 @@ public class RubbleScript : MonoBehaviour {
         {
             iHealth -= TargetStatus.iBulletDamage;
             aAudioSource.PlayOneShot(aBasicHitSound, 0.6f);
-            STGEngine.SpawnPrefab(rFXHit, Bullet.transform.position, Bullet.transform.rotation, 0, 0, 0);
+            STGEngine.SpawnPrefab(rFXHit, Bullet.transform.position, Bullet.transform.rotation, new Vector2(0, 0), 0);
         }
 
         if (collision.gameObject.tag == "Shield")
         {
             iHealth = -100;
             aAudioSource.PlayOneShot(aBasicHitSound, 1.0f);
-            STGEngine.SpawnPrefab(rFXHit, Bullet.transform.position, Bullet.transform.rotation, 0, 0, 0);
+            STGEngine.SpawnPrefab(rFXHit, Bullet.transform.position, Bullet.transform.rotation, new Vector2(0, 0), 0);
         }
     }
 }

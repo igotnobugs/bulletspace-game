@@ -20,14 +20,11 @@ public class EVFramework : MonoBehaviour
     [HideInInspector]
     public int iTime, iGlobalDelay, iGlobalStage;
     [HideInInspector]
-    public bool bEventRunning;
-    [HideInInspector]
 
 
     // Use this for initialization
     void Start () {
         STGEngine = GetComponent<STGFramework>();
-	    bEventRunning = false;
     }
 
 
@@ -39,7 +36,9 @@ public class EVFramework : MonoBehaviour
 
 
     #region Events for Stage Manipulation
-    //Starts the game by advancing it
+    /// <summary>
+    /// Starts the game by advancing it
+    /// </summary>
     public void EventGameStart()
     {
         if (iGlobalStage == 0)
@@ -55,8 +54,9 @@ public class EVFramework : MonoBehaviour
             //Debug.Log(fGlobalDelay);
         }
     }
-
-    //Use only to go back a stage or advance to another stage
+    /// <summary>
+    /// Use only to go back a stage or advance to another stage
+    /// </summary>
     public void EventStageStart(int iEventStage) 
     {
         fGlobalDelay = 0;
@@ -69,7 +69,9 @@ public class EVFramework : MonoBehaviour
 	    }     
     }
 
-    //Resets delay and advances the next stage, fEndTimes should be longer than other delays
+    /// <summary> 
+    /// Resets delay and advances the next stage, fEndTimes should be longer than other delays
+    /// </summary> 
     public void EventStageEnd(float fEndTimes)
     {    
         if (fEndTimes < fGlobalDelay)
@@ -85,23 +87,44 @@ public class EVFramework : MonoBehaviour
         }
     }
 
-    //Only ends event and start the corresponding stage if no Event is running
-    public void EventIfEnd (int iEventStage)
-    {    
-        if ((iGlobalStage != iEventStage) && (bEventRunning == false))
+    /// <summary>
+    /// Ends when the Target is dead, Goes to the Stage with a delay
+    /// </summary> 
+    public void EventIfDeadEnd(string sTargetTag, int iEventStage, float fDelay = 0)
+    {
+        GameObject Target = GameObject.FindWithTag(sTargetTag);
+        if (!Target)
         {
-            iGlobalStage = iEventStage;
+            if ((iGlobalStage != iEventStage) && (fDelay < fGlobalDelay))
+            {
+                fGlobalDelay = 0;
+                iGlobalStage = iEventStage;
+            } else
+            {
+                Debug.Log("Current Stage is already the stage to go to.");
+            }
+        } else
+        {
+            fDelay += Time.deltaTime;
         }
     }
-
     #endregion
 
     #region Events for Single Spawning
-    public void EventSpawnPlayer(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, float fXDir, float fYDir, float fAddSpd, float fEvDelay)
+    /// <summary>
+    /// Spawn the player
+    /// </summary>
+    /// <param name="rObj">This should be the RigidBody2D of the Player</param>
+    /// <param name="vLoc">Vector2 Location to Spawn the Player in.</param>
+    /// <param name="qRot">Quaternion Rotation of the Player.</param>
+    /// <param name="vDir">Vector2 Direction to Spawn the Player at</param>
+    /// <param name="fAddSpd">Additional Speed for Direction</param>
+    /// <param name="fEvDelay">Delay to Spawn the Player</param>
+    public void EventSpawnPlayer(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, Vector2 vDir, float fAddSpd, float fEvDelay)
     {
         if ((fEvDelay < fGlobalDelay) && (!bEventSpawnPlayer))
         {
-            STGEngine.SpawnPlayer(rObj, vLoc, qRot, fXDir, fYDir, fAddSpd);
+            STGEngine.SpawnPlayer(rObj, vLoc, qRot, vDir, fAddSpd);
             Debug.Log("Event Player Spawn Success");
             bEventSpawnPlayer = true;
         } else
@@ -110,11 +133,11 @@ public class EVFramework : MonoBehaviour
         }
     }
 
-    public void EventSpawnA(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, float fXDir, float fYDir, float fAddSpd, float fEvDelay)
+    public void EventSpawnA(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, Vector2 vDir, float fAddSpd, float fEvDelay)
     {
         if ((fEvDelay < fGlobalDelay) && (!bEventSpawnA))
         {
-            STGEngine.SpawnPrefab(rObj, vLoc, qRot, fXDir, fYDir, fAddSpd);
+            STGEngine.SpawnPrefab(rObj, vLoc, qRot, vDir, fAddSpd);
             Debug.Log("Event Spawn A Success");
             bEventSpawnA = true;
         } else
@@ -122,11 +145,11 @@ public class EVFramework : MonoBehaviour
             //Debug.Log("Event Spawn A Failed" + " " + bEventSpawnA + " " + fEvDelay + " " + fGlobalDelay);
         }
     }
-    public void EventSpawnB(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, float fXDir, float fYDir, float fAddSpd, float fEvDelay)
+    public void EventSpawnB(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, Vector2 vDir, float fAddSpd, float fEvDelay)
     {
         if ((fEvDelay < fGlobalDelay) && (!bEventSpawnB))
         {
-            STGEngine.SpawnPrefab(rObj, vLoc, qRot, fXDir, fYDir, fAddSpd);
+            STGEngine.SpawnPrefab(rObj, vLoc, qRot, vDir, fAddSpd);
             Debug.Log("Event Spawn B Success");
             bEventSpawnB = true;
         } else
@@ -134,11 +157,11 @@ public class EVFramework : MonoBehaviour
             //Debug.Log("Event Spawn B Failed" + " " + bEventSpawnB + " " + fEvDelay + " " + fGlobalDelay);
         }
     }
-    public void EventSpawnC(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, float fXDir, float fYDir, float fAddSpd, float fEvDelay)
+    public void EventSpawnC(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, Vector2 vDir, float fAddSpd, float fEvDelay)
     {
         if ((fEvDelay < fGlobalDelay) && (!bEventSpawnC))
         {
-            STGEngine.SpawnPrefab(rObj, vLoc, qRot, fXDir, fYDir, fAddSpd);
+            STGEngine.SpawnPrefab(rObj, vLoc, qRot, vDir, fAddSpd);
             Debug.Log("Event Spawn C Success");
             bEventSpawnC = true;
         } else
@@ -148,7 +171,8 @@ public class EVFramework : MonoBehaviour
     }
     #endregion
 
-    public void EventSpawnHorMulti(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, float fXDir, float fYDir, float fSpace, float fCount, float fAddSpd, float fEvDelay)
+    #region Events for Multi Spawning
+    public void EventSpawnHorMulti(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, Vector2 vDir, float fSpace, float fCount, float fAddSpd, float fEvDelay)
     {
         if ((fEvDelay < fGlobalDelay) && (!bEventSpawnHorMult))
         {
@@ -156,11 +180,12 @@ public class EVFramework : MonoBehaviour
             while ( i < fCount)
             {
                 vLoc.x = vLoc.x + (fSpace * i);
-                STGEngine.SpawnPrefab(rObj, vLoc, qRot, fXDir, fYDir, fAddSpd);
+                STGEngine.SpawnPrefab(rObj, vLoc, qRot, vDir, fAddSpd);
                 i++;
             }
             bEventSpawnHorMult = true;
         }
     }
+    #endregion
 }
          
