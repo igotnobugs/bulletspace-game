@@ -5,13 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
-    //Needed to work
+    //Requirements
     private STGFramework STGEngine;
-    private float fCooldownFireRate;
     private AudioSource aAudioSource;
-    // Default 3, 2.5, 11.5, 12.5.
-    public Vector2 vBotLeftCor;
-    public Vector2 vUpRightCor;
 
     //Ship Components
     public Rigidbody2D rThisBody;
@@ -28,7 +24,8 @@ public class PlayerScript : MonoBehaviour
     //Ship Stats
     public int iHealth;
     public bool bAlive = true;
-    public float fOrigFireRate = 20;
+    private float fCooldownFireRate;
+    public float fCooldownFireRateMax = 20;
     public float fSpeed = 1.0f;
     public float fShieldCooldown = 0;
     public float fShieldCooldownMax = 2000;
@@ -37,6 +34,9 @@ public class PlayerScript : MonoBehaviour
     private bool bBombDeployed = false;
 
     //Player Controls
+    // Default 3, 2.5, 11.5, 12.5.
+    public Vector2 vBotLeftCor;
+    public Vector2 vUpRightCor;
     public KeyCode kShoot = KeyCode.Space;
     public KeyCode kLeft = KeyCode.A;
     public KeyCode kRight = KeyCode.D;
@@ -83,7 +83,7 @@ public class PlayerScript : MonoBehaviour
             {
                 STGEngine.ShootOscBullet(rProjectile, 0, 1.0f, 0.2f, 15.0f);
                 aAudioSource.PlayOneShot(aBasicShootSound, 1);
-                fCooldownFireRate = fOrigFireRate;
+                fCooldownFireRate = fCooldownFireRateMax;
             }
         }
 

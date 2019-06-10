@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyScript : MonoBehaviour {
-
+public class EnemyScript : MonoBehaviour
+{
     //Needed to work
     private STGFramework STGEngine;
     private AIFramework AIFrames;
-    private float fCooldownFireRate; 
     private AudioSource aAudioSource;
 
     //Ship Components
@@ -22,8 +21,9 @@ public class EnemyScript : MonoBehaviour {
 
     //Ship Stats
     public int iHealth;
+    private float fCooldownFireRate;
     public float fShipFireRate;
-    private float spin = 1.0f;
+    private float fDeathSpin = 1.0f;
     private bool bAlive = true;
 
     // Use this for initialization
@@ -73,9 +73,9 @@ public class EnemyScript : MonoBehaviour {
 
         if (!bAlive)
         {
-            spin += 5f;
+            fDeathSpin += 5f;
             rThisBody.bodyType = RigidbodyType2D.Dynamic;
-            this.transform.rotation = Quaternion.Euler(180, 0, spin);
+            this.transform.rotation = Quaternion.Euler(180, 0, fDeathSpin);
             gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
             Destroy(gameObject, 1.0f);
         }

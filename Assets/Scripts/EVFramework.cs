@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EVFramework : MonoBehaviour {
-
+public class EVFramework : MonoBehaviour
+{
     /* EV FRAMEWORK
     * A collection of functions for oranizing sequences mostly for scenes/stages
     */
 
     private STGFramework STGEngine;
-    private bool bEventSpawnA, bEventSpawnB, bEventSpawnC;
-    
+    private bool bEventSpawnPlayer = false;
+    private bool bEventSpawnA = false, bEventSpawnB = false, bEventSpawnC = false;
+    private bool bEventSpawnHorMult = false;
+
+    //public int iThingsToSpawn;
 
     [HideInInspector]
     public float fGlobalDelay, fEnemyAround;
@@ -18,6 +21,7 @@ public class EVFramework : MonoBehaviour {
     public int iTime, iGlobalDelay, iGlobalStage;
     [HideInInspector]
     public bool bEventRunning;
+    [HideInInspector]
 
 
     // Use this for initialization
@@ -73,9 +77,11 @@ public class EVFramework : MonoBehaviour {
             iGlobalStage += 1;
             fGlobalDelay = 0;
 
+            bEventSpawnPlayer = false;
             bEventSpawnA = false;
             bEventSpawnB = false;
             bEventSpawnC = false;
+            bEventSpawnHorMult = false;
         }
     }
 
@@ -91,40 +97,70 @@ public class EVFramework : MonoBehaviour {
     #endregion
 
     #region Events for Single Spawning
-    public void EventSpawnPlayer(Rigidbody2D rObject, Vector2 vLocation, Quaternion Rotation, float xDirection, float yDirection, float fAdditionalSpeed, float fEventDelay)
+    public void EventSpawnPlayer(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, float fXDir, float fYDir, float fAddSpd, float fEvDelay)
     {
-
-        if ((fEventDelay < fGlobalDelay) && (!bEventSpawnA))
+        if ((fEvDelay < fGlobalDelay) && (!bEventSpawnPlayer))
         {
-            STGEngine.SpawnPlayer(rObject, vLocation, Rotation, xDirection, yDirection, fAdditionalSpeed);
-            bEventSpawnA = true;
+            STGEngine.SpawnPlayer(rObj, vLoc, qRot, fXDir, fYDir, fAddSpd);
+            Debug.Log("Event Player Spawn Success");
+            bEventSpawnPlayer = true;
+        } else
+        {
+            //Debug.Log("Event Player Spawn Failed");
         }
     }
 
-    public void EventSpawnA(Rigidbody2D rObject, Vector2 vLocation, Quaternion Rotation, float xDirection, float yDirection, float fAdditionalSpeed, float fEventDelay)
+    public void EventSpawnA(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, float fXDir, float fYDir, float fAddSpd, float fEvDelay)
     {
-        if ((fEventDelay < fGlobalDelay) && (!bEventSpawnA))
+        if ((fEvDelay < fGlobalDelay) && (!bEventSpawnA))
         {
-            STGEngine.SpawnPrefab(rObject, vLocation, Rotation, xDirection, yDirection, fAdditionalSpeed);
+            STGEngine.SpawnPrefab(rObj, vLoc, qRot, fXDir, fYDir, fAddSpd);
+            Debug.Log("Event Spawn A Success");
             bEventSpawnA = true;
+        } else
+        {
+            //Debug.Log("Event Spawn A Failed" + " " + bEventSpawnA + " " + fEvDelay + " " + fGlobalDelay);
         }
     }
-    public void EventSpawnB(Rigidbody2D rObject, Vector2 vLocation, Quaternion Rotation, float xDirection, float yDirection, float fAdditionalSpeed, float fEventDelay)
+    public void EventSpawnB(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, float fXDir, float fYDir, float fAddSpd, float fEvDelay)
     {
-        if ((fEventDelay < fGlobalDelay) && (!bEventSpawnB))
+        if ((fEvDelay < fGlobalDelay) && (!bEventSpawnB))
         {
-            STGEngine.SpawnPrefab(rObject, vLocation, Rotation, xDirection, yDirection, fAdditionalSpeed);
+            STGEngine.SpawnPrefab(rObj, vLoc, qRot, fXDir, fYDir, fAddSpd);
+            Debug.Log("Event Spawn B Success");
             bEventSpawnB = true;
+        } else
+        {
+            //Debug.Log("Event Spawn B Failed" + " " + bEventSpawnB + " " + fEvDelay + " " + fGlobalDelay);
         }
     }
-    public void EventSpawnC(Rigidbody2D rObject, Vector2 vLocation, Quaternion Rotation, float xDirection, float yDirection, float fAdditionalSpeed, float fEventDelay)
+    public void EventSpawnC(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, float fXDir, float fYDir, float fAddSpd, float fEvDelay)
     {
-        if ((fEventDelay < fGlobalDelay) && (!bEventSpawnC))
+        if ((fEvDelay < fGlobalDelay) && (!bEventSpawnC))
         {
-            STGEngine.SpawnPrefab(rObject, vLocation, Rotation, xDirection, yDirection, fAdditionalSpeed);
+            STGEngine.SpawnPrefab(rObj, vLoc, qRot, fXDir, fYDir, fAddSpd);
+            Debug.Log("Event Spawn C Success");
             bEventSpawnC = true;
+        } else
+        {
+            //Debug.Log("Event Spawn C Failed" + " " + bEventSpawnC + " " + fEvDelay + " " + fGlobalDelay);
         }
     }
     #endregion
 
+    public void EventSpawnHorMulti(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, float fXDir, float fYDir, float fSpace, float fCount, float fAddSpd, float fEvDelay)
+    {
+        if ((fEvDelay < fGlobalDelay) && (!bEventSpawnHorMult))
+        {
+            int i = 0;
+            while ( i < fCount)
+            {
+                vLoc.x = vLoc.x + (fSpace * i);
+                STGEngine.SpawnPrefab(rObj, vLoc, qRot, fXDir, fYDir, fAddSpd);
+                i++;
+            }
+            bEventSpawnHorMult = true;
+        }
+    }
 }
+         

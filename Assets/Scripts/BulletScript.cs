@@ -2,31 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletScript: MonoBehaviour {
-
+public class BulletScript: MonoBehaviour
+{
+    //Requirements
     private STGFramework STGEngine;
     private AIFramework AIFrames;
     private AudioSource aAudioSource;
 
+    //Bullet Components
     public Rigidbody2D rBullet;
     public Rigidbody2D rExplosion;
 
-
-
-    public float fBulletSpeed;
-    public string sTarget;
+    //Bullet Stat
     public bool bMissile;
+    public float fBulletSpeed;
+    public int iBulletDamage = 10;
 
-    private bool bMissileDeployedSound = false;
-    private bool bMissileShootSound = false;
-
-    private Vector2 vLockon;
-
+    //Bullet Audio
     public AudioClip aReadySound;
     public AudioClip aShootSound;
 
-    //Bullet Stats
-    public int iBulletDamage = 10;
+    //For Missile Vars
+    public string sTarget;
+    private Vector2 vLockon;
+    private bool bMissileDeployedSound = false;
+    private bool bMissileShootSound = false;     
 
     // Use this for initialization
     void Start()
@@ -34,7 +34,6 @@ public class BulletScript: MonoBehaviour {
         STGEngine = GetComponent<STGFramework>();
         AIFrames = GetComponent<AIFramework>();
         aAudioSource = GetComponent<AudioSource>();
-
     }
 
 
@@ -59,7 +58,13 @@ public class BulletScript: MonoBehaviour {
                 case 1:
                     STGEngine.ShootAiming("Player");
                     GameObject Target = GameObject.Find("Player");
-                    vLockon = new Vector2(Target.transform.position.x, Target.transform.position.y);
+                    if (Target)
+                    {
+                        vLockon = new Vector2(Target.transform.position.x, Target.transform.position.y);
+                    } else
+                    {
+                        //Debug.Log("No Target");
+                    }
                     if (!bMissileDeployedSound)
                     {
                         aAudioSource.PlayOneShot(aReadySound, 2);

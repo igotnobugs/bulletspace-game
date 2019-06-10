@@ -4,8 +4,8 @@ using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class STGFramework : MonoBehaviour {
-
+public class STGFramework : MonoBehaviour
+{
     /* STG FRAMEWORK
      * A collection of functions for:
      * Player Movement and Enemy Movement
@@ -24,6 +24,7 @@ public class STGFramework : MonoBehaviour {
     private float fShootTimeAc = 0.0f, fShootSoundTimeAc = 0.0f;
     private float fAngle = 0;
 
+    //For Dialogue Box 
     private Canvas cSTGDialogueCanvas;
     private GameObject oSTGPortraitImage;
     private Text tSTGNameText, tSTGDialogueText;
@@ -43,7 +44,7 @@ public class STGFramework : MonoBehaviour {
     void Update() {
     }
 
-    #region -----------  Variables
+    #region -----------  Global Variables
     public static class GlobalVariables
     {
         public static int iScoreCounter;
@@ -285,7 +286,7 @@ public class STGFramework : MonoBehaviour {
         float xpos = (Target.transform.position.x + fHDirection) - this.transform.position.x;
         float ypos = (Target.transform.position.y + fVDirection) - this.transform.position.y;
 
-        Debug.Log(xpos);
+        //Debug.Log(xpos);
 
         //distance = Mathf.Sqrt(Mathf.Pow(xpos,2.0f) + Mathf.Pow(ypos, 2.0f));
 

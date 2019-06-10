@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class Boss1Script : MonoBehaviour
 {
-
     //Needed to work
     private STGFramework STGEngine;
     private AIFramework AIFrames;
-    private float fCooldownFireRate;
     private AudioSource aAudioSource;
-
 
     //Ship Components
     public Rigidbody2D rThisBody; //RigidBody of the gameObject
@@ -23,15 +20,13 @@ public class Boss1Script : MonoBehaviour
     public AudioClip aBasicHitSound; //Hit Sound
     public AudioClip aDestroySound; //Destroyed Sound
 
-
-
     //Ship Stats
     public float iMaxHealth;
     public float iHealth;
+    private float fCooldownFireRate;
     public float fOrigFireRate;
     public bool bAlive = true;
-    private float spin = 1.0f;
-
+    private float fDeathSpin = 1.0f;
 
     // Use this for initialization
     void Start()
@@ -117,9 +112,9 @@ public class Boss1Script : MonoBehaviour
         }
         if (!bAlive)
         {
-            spin += 5f;
+            fDeathSpin += 5f;
             rThisBody.bodyType = RigidbodyType2D.Dynamic;
-            this.transform.rotation = Quaternion.Euler(180, 0, spin);
+            this.transform.rotation = Quaternion.Euler(180, 0, fDeathSpin);
             gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
             //Destroy(gameObject, 1.0f);
         }

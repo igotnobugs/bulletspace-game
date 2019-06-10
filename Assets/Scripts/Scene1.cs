@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Scene1 : MonoBehaviour {
-
+public class Scene1 : MonoBehaviour
+{
     //Always needed for every Scene
     private STGFramework STGEngine;
     private EVFramework EVFrames;
@@ -54,6 +54,12 @@ public class Scene1 : MonoBehaviour {
     private bool bKnowsWhatFDoes = false;
     private bool bKilledBeforeKnowing = false;
     private bool bBossHasArrived = false;
+
+    private bool bSkipToRubble = false;
+    private bool bSkipToFight = false;
+    private bool bSkipToRocketWave = true;
+    private bool bSkipToBoss = true;
+
 
     // Use this for initialization
     void Start() {
@@ -142,8 +148,20 @@ public class Scene1 : MonoBehaviour {
                 EVFrames.EventSpawnPlayer(rPlayer, vStartingLocation, transform.rotation, 0, 0, 0, 0);
                 bPlayerisHere = true;
                 STGEngine.EnablePlayerControls();
-                STGEngine.DialogueShow(sGreenAI, "Greetings! \nHow are you today?");
-                EVFrames.EventStageEnd(4);
+
+                if (bSkipToRubble)
+                { EVFrames.EventStageStart(9); }
+                else if (bSkipToFight)
+                { EVFrames.EventStageStart(12); }
+                else if (bSkipToRocketWave)
+                { EVFrames.EventStageStart(27); }
+                else if (bSkipToBoss)
+                { EVFrames.EventStageStart(40); }
+                else
+                {
+                    STGEngine.DialogueShow(sGreenAI, "Greetings! \nHow are you today?");
+                    EVFrames.EventStageEnd(4);
+                }
                
                 break;
             case 3:
@@ -233,8 +251,9 @@ public class Scene1 : MonoBehaviour {
                 break;
             case 16:
                 STGEngine.DialogueHide(cDialogueCanvas);
-                EVFrames.EventSpawnA(rEnemy, new Vector2(6.2f, fTopSpawn), transform.rotation, 0, -1.0f, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(8.2f, fTopSpawn), transform.rotation, 0, -1.0f, 1.0f, 0);
+                //EVFrames.EventSpawnHorMulti(rEnemy, new Vector2(6.2f, fTopSpawn), transform.rotation, 0, -1.0f, 2.0f, 2, 1.0f, 0);
+                //EVFrames.EventSpawnA(rEnemy, new Vector2(6.2f, fTopSpawn), transform.rotation, 0, -1.0f, 1.0f, 0);
+                //EVFrames.EventSpawnB(rEnemy, new Vector2(8.2f, fTopSpawn), transform.rotation, 0, -1.0f, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 17:
@@ -358,8 +377,6 @@ public class Scene1 : MonoBehaviour {
             case 41: //Boss
                 GameObject Boss = GameObject.Find("Boss");
                 //Boss1Script BossHealth = GameObject.Find("Boss").GetComponent<Boss1Script>();
-
-
                 if (Boss)
                 {
                     bBossHasArrived = true;
