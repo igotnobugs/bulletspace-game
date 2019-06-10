@@ -1,7 +1,7 @@
 # bulletspace-game
 CompFun2 Final Project  
 
-Bullethell space game. Tet
+Bullethell space game.
 
 ## Controls
 **Space** - Shoot  
