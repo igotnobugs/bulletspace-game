@@ -34,9 +34,10 @@ public class EnemyController : MonoBehaviour
 
     public GunController theGun;
     //public ShieldController theShield;
-   // public GameObject shield;
+    // public GameObject shield;
 
     // Start is called before the first frame update
+    public bool debugDontFire;
     void Start()
     {
         STGEngine = GetComponent<STGFramework>();
@@ -56,9 +57,9 @@ public class EnemyController : MonoBehaviour
 
         delayToFire -= Time.deltaTime;
 
-        if (delayToFire <= 0)
+        if (delayToFire <= 0) 
         {
-            if ((theGun.isFiring == false) && (isAlive))
+            if ((theGun.isFiring == false) && (isAlive) && (!debugDontFire))
             {
                 theGun.isFiring = true;
             }
@@ -75,7 +76,7 @@ public class EnemyController : MonoBehaviour
             spin += 5f;
             SelfRigidBody.bodyType = RigidbodyType2D.Dynamic;
             this.transform.rotation = Quaternion.Euler(180, 0, spin);
-            gameObject.GetComponent<CapsuleCollider2D>().isTrigger = false;
+            gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
             Destroy(gameObject, 1.0f);
         }
     }
@@ -88,12 +89,12 @@ public class EnemyController : MonoBehaviour
         {
             shipHealth -= bullet.damage;
             AudioSource.PlayOneShot(BasicHitSound, 1.0f);
-            STGEngine.SpawnPrefab(rFXHit, this.transform.position, this.transform.rotation, new Vector2(0, 0), 0);
+            STGEngine.SpawnPrefab(bullet.hitEffect, this.transform.position, this.transform.rotation, new Vector2(0, 0), 0);
         }
     }
 
     void OnBecameInvisible()
     {
-        Destroy(gameObject, 1);
+        Destroy(gameObject, 0);
     }
 }

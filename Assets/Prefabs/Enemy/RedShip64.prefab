@@ -5007,6 +5007,7 @@ MonoBehaviour:
   HEAT_COOLDOWN_MAX: 0
   SHIP_HEALTH_MAX: 0
   theGun: {fileID: 7858436033984739901}
+  debugDontFire: 1
 --- !u!114 &-703021727938977167
 MonoBehaviour:
   m_ObjectHideFlags: 0

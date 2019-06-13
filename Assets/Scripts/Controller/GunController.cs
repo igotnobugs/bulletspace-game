@@ -49,6 +49,8 @@ public class GunController : MonoBehaviour
             shotCounter -= Time.deltaTime;
         }
 
+
+
         if (isFiring)
         {
             if (shotCounter <= 0)
@@ -63,12 +65,24 @@ public class GunController : MonoBehaviour
                     {
                         fireLeft = false;
                     }
+                    if (isPlayerGun)
+                    {
+                        newbullet.targetTag = "Enemy";
+                        newbullet.standard = false;
+                        newbullet.missileLocksOn = true;
+                    }
                 } else
                 {
                     BulletController newbullet = Instantiate(bullet, firePoint2.position, firePoint2.rotation) as BulletController;
                     newbullet.speed = bulletSpeed;
                     newbullet.tag = tag;
                     fireLeft = true;
+                    if (isPlayerGun)
+                    {
+                        newbullet.targetTag = "Enemy";
+                        newbullet.standard = false;
+                        newbullet.missileLocksOn = true;
+                    }
                 }
                 AudioSource.PlayOneShot(ShootSound1, 1);
                 //player.heatSink += player.mainHeatCost;

@@ -39,7 +39,6 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D mainProjectile;
     public float mainHeatCost;
     public Rigidbody2D rCircleProjectile;
-    public Rigidbody2D rFXHit;
     public Rigidbody2D rShield;
 
     //Ship Audio
@@ -161,12 +160,13 @@ public class PlayerController : MonoBehaviour
         {
             shipHealth -= bullet.damage;
             AudioSource.PlayOneShot(BasicHitSound, 1.0f);
-            STGEngine.SpawnPrefab(rFXHit, this.transform.position, this.transform.rotation, new Vector2(0, 0), 0);
+            STGEngine.SpawnPrefab(bullet.hitEffect, this.transform.position, this.transform.rotation, new Vector2(0, 0), 0);
             fInviTime = 30;
             bHitOnce = true;
         }
     }
 
+    #region Control Script
     void PlayerShipMovement(KeyCode LeftKey, KeyCode RightKey, KeyCode UpKey, KeyCode DownKey, bool bEnabled)
     {
         bool bReachedLimitLeft, bReachedLimitRight, bReachedLimitUp, bReachedLimitDown;
@@ -247,4 +247,5 @@ public class PlayerController : MonoBehaviour
             SelfRigidBody.velocity = playerDirection * speed;
         }       
     }
+    #endregion
 }

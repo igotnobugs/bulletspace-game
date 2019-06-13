@@ -4993,8 +4993,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a38fbd15bef89549b8a82b8fa1aa608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  standard: 1
+  missile: 0
+  missileLocksOn: 0
+  missileHeatSeek: 0
   damage: 1
+  speed: 1
+  acceleration: 0.2
+  delay: 0
+  lockOnDelay: 0
+  targetTag: 
+  explodeOnTargetLocation: 0
+  hitEffect: {fileID: 0}
+  destroyOnImpact: 1
+  enemyFound: 0
 --- !u!1 &1903994365723002
 GameObject:
   m_ObjectHideFlags: 0
