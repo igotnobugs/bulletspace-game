@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BluePlanetScript : MonoBehaviour {
 
@@ -20,16 +18,16 @@ public class BluePlanetScript : MonoBehaviour {
         switch (AIFrames.iMovementStage)
         {
             case 1:
-                STGEngine.MoveTowards(new Vector2(0, -9.0f), 5.0f);
-                AIFrames.EventMoveEnd(2.0f);
+                STGEngine.MoveTowards(new Vector3(0, -9.0f, 0), 5.0f);
+                AIFrames.EventMoveLocEnd(new Vector3(0, -9.0f, 0));
                 break;
             case 2:
-                STGEngine.MoveTowards(new Vector2(0, -9.2f), 0.02f);
-                AIFrames.EventMoveEnd(10.0f);
+                STGEngine.MoveTowards(new Vector2(0, -10.0f), 0.10f);
+                AIFrames.EventMoveLocEnd(new Vector3(0, -10.0f, 0));
                 break;
             case 3:
-                STGEngine.MoveTowards(new Vector2(0, -9.0f), 0.02f);
-                AIFrames.EventMoveEnd(10.0f);
+                STGEngine.MoveTowards(new Vector2(0, -9.0f), 0.10f);
+                AIFrames.EventMoveLocEnd(new Vector3(0, -9.0f, 0));
                 break;
             case 4:
                 AIFrames.EventMoveStart(2);

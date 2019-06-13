@@ -4,12 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - FriendlyBullet
-  - EnemyBullet
-  - Enemy
-  - Boss
   - SceneManager
+  - Enemy
+  - EnemyBullet
   - Shield
+  - FriendlyBullet
+  - Friendly
   layers:
   - Default
   - TransparentFX
@@ -20,11 +20,11 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
+  - Player
   - Enemy
-  - EnemyBullet
   - Friendly
-  - FriendlyBullet
+  - Bullet
+  - 
   - Wall
   - 
   - 
@@ -49,4 +49,4 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
-    locked: 0
+    locked: 1

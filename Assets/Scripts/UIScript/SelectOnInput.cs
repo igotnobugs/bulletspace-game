@@ -24,6 +24,10 @@ public class SelectOnInput : MonoBehaviour {
             eventSystem.SetSelectedGameObject(selectedGameObject);
             bButtonSelected = true;
         }
+        if (bButtonSelected)
+        {
+            //Nothing.
+        }
     }
 
 

@@ -114,12 +114,6 @@ public class EVFramework : MonoBehaviour
     /// <summary>
     /// Spawn the player
     /// </summary>
-    /// <param name="rObj">This should be the RigidBody2D of the Player</param>
-    /// <param name="vLoc">Vector2 Location to Spawn the Player in.</param>
-    /// <param name="qRot">Quaternion Rotation of the Player.</param>
-    /// <param name="vDir">Vector2 Direction to Spawn the Player at</param>
-    /// <param name="fAddSpd">Additional Speed for Direction</param>
-    /// <param name="fEvDelay">Delay to Spawn the Player</param>
     public void EventSpawnPlayer(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, Vector2 vDir, float fAddSpd, float fEvDelay)
     {
         if ((fEvDelay < fGlobalDelay) && (!bEventSpawnPlayer))
@@ -127,9 +121,6 @@ public class EVFramework : MonoBehaviour
             STGEngine.SpawnPlayer(rObj, vLoc, qRot, vDir, fAddSpd);
             Debug.Log("Event Player Spawn Success");
             bEventSpawnPlayer = true;
-        } else
-        {
-            //Debug.Log("Event Player Spawn Failed");
         }
     }
 
@@ -140,9 +131,6 @@ public class EVFramework : MonoBehaviour
             STGEngine.SpawnPrefab(rObj, vLoc, qRot, vDir, fAddSpd);
             Debug.Log("Event Spawn A Success");
             bEventSpawnA = true;
-        } else
-        {
-            //Debug.Log("Event Spawn A Failed" + " " + bEventSpawnA + " " + fEvDelay + " " + fGlobalDelay);
         }
     }
     public void EventSpawnB(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, Vector2 vDir, float fAddSpd, float fEvDelay)
@@ -152,9 +140,6 @@ public class EVFramework : MonoBehaviour
             STGEngine.SpawnPrefab(rObj, vLoc, qRot, vDir, fAddSpd);
             Debug.Log("Event Spawn B Success");
             bEventSpawnB = true;
-        } else
-        {
-            //Debug.Log("Event Spawn B Failed" + " " + bEventSpawnB + " " + fEvDelay + " " + fGlobalDelay);
         }
     }
     public void EventSpawnC(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, Vector2 vDir, float fAddSpd, float fEvDelay)
@@ -164,9 +149,6 @@ public class EVFramework : MonoBehaviour
             STGEngine.SpawnPrefab(rObj, vLoc, qRot, vDir, fAddSpd);
             Debug.Log("Event Spawn C Success");
             bEventSpawnC = true;
-        } else
-        {
-            //Debug.Log("Event Spawn C Failed" + " " + bEventSpawnC + " " + fEvDelay + " " + fGlobalDelay);
         }
     }
     #endregion

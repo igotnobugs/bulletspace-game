@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using GameUtils;
+using GlobalVars;
 
 public class Scene1 : MonoBehaviour
 {
@@ -13,8 +13,11 @@ public class Scene1 : MonoBehaviour
     public Vector2 vStartingLocation;
     public Vector2 vCenter;
     public float fTopSpawn;
-    private Vector2 vStayStill = new Vector2(0, 0);
-    private Vector2 vGoDown = new Vector2(0, -1.0f);
+    private Vector2 vStayStill = Util.Vec2(0, 0);
+    private Vector2 vGoDown = Util.Vec2(0, -1.0f);
+    public Vector2 BottomLeftBorder = Util.Vec2(-4.5f, -4.5f);
+    public Vector2 UpperRightBorder = Util.Vec2(4.5f, 4.5f);
+    public Quaternion FaceDown = new Quaternion(0, 0, 180, 0);
 
     //Audio to Play
     private AudioSource aAudioSource;
@@ -63,8 +66,18 @@ public class Scene1 : MonoBehaviour
     public bool bSkipToRubble = false;
     public bool bSkipToFight = false;
     public bool bSkipToRocketWave = false;
-    public bool bSkipToBoss = true;
+    public bool bSkipToBoss = false;
 
+
+    public static KeyCode shootKey = KeyCode.Space;
+    public static KeyCode leftKey = KeyCode.A;
+    public static KeyCode rightKey = KeyCode.D;
+    public static KeyCode upKey = KeyCode.W;
+    public static KeyCode downKey = KeyCode.S;
+    public static KeyCode shieldKey = KeyCode.E;
+    public static KeyCode suicideKey = KeyCode.F;
+    public static KeyCode brakeKey = KeyCode.LeftShift;
+    public static KeyCode quitKey = KeyCode.Escape;
 
     // Use this for initialization
     void Start() {
@@ -73,7 +86,22 @@ public class Scene1 : MonoBehaviour
         aAudioSource = GetComponent<AudioSource>();
 
         //Limit Framerate
-        Application.targetFrameRate = 60;
+        //Application.targetFrameRate = 60;
+
+        //Set the Player Controls
+        GlobVars.kShoot = shootKey;
+        GlobVars.kLeft = leftKey;
+        GlobVars.kRight = rightKey;
+        GlobVars.kUp = upKey;
+        GlobVars.kDown = downKey;
+        GlobVars.kShield = shieldKey;
+        GlobVars.kSuicide = suicideKey;
+        GlobVars.kBrake = brakeKey;
+        GlobVars.kQuit = quitKey;
+
+        //Set the Player Border
+        GlobVars.BottomLeftBorder = BottomLeftBorder;
+        GlobVars.UpperRightBorder = UpperRightBorder;
     }
 
     // Update is called once per frame
@@ -95,9 +123,9 @@ public class Scene1 : MonoBehaviour
                 bPlayerSpawned = false;
             }
 
-            PlayerScript PlayerHeat = Player.GetComponent<PlayerScript>();
-            float HeatPercentage = (PlayerHeat.fHeatSink / PlayerHeat.fMaxHeatSink);
-            STGEngine.UIBarSize(pPlayerGunHeatBar, new Vector2(1, HeatPercentage));
+            PlayerController PlayerHeat = Player.GetComponent<PlayerController>();
+            float HeatPercentage = (PlayerHeat.heatSink / PlayerHeat.HEATSINK_MAX);
+            STGEngine.UIBarSize(pPlayerGunHeatBar, Util.Vec2(1, HeatPercentage));
 
             //Scoring system add 1 point every 2 seconds
             TimeT += Time.deltaTime;
@@ -125,7 +153,7 @@ public class Scene1 : MonoBehaviour
                 {
                     STGEngine.UIPanelShow(pBossHealthPanel);
                     float BossPercentage = (BossHealth.iHealth / BossHealth.iMaxHealth);
-                    STGEngine.UIBarSize(pBossHealthBar, new Vector2(BossPercentage, 1));
+                    STGEngine.UIBarSize(pBossHealthBar, Util.Vec2(BossPercentage, 1));
                 }
             }
             else
@@ -146,8 +174,6 @@ public class Scene1 : MonoBehaviour
                 STGEngine.DialogueSetup(cDialogueCanvas, oPortraitImage1, tNameText, tDialogueText);
 
                 //Reset 
-                STGEngine.UITextChange(tPlayerState, "<color=cyan>Sys Nom</color>");
-                PlayerStateImage.color = Color.cyan;
                 STGEngine.UIPanelHide(pBossHealthPanel);
                 STGEngine.ScoreResetZero(tScoreCounter);
                 bResetOnGoing = false;
@@ -158,9 +184,8 @@ public class Scene1 : MonoBehaviour
                 EVFrames.EventStageEnd(0);
                 break;
             case 2:
-                EVFrames.EventSpawnPlayer(rPlayer, vStartingLocation, transform.rotation, new Vector2 (0, 0) , 0, 0);
+                EVFrames.EventSpawnPlayer(rPlayer, vStartingLocation, transform.rotation, Util.Vec2 (0, 0) , 0, 0);
                 bPlayerSpawned = true;
-                STGEngine.EnablePlayerControls();
 
                 if (bSkipToRubble)
                 { EVFrames.EventStageStart(9); }
@@ -226,21 +251,21 @@ public class Scene1 : MonoBehaviour
                 break;
             case 9:
                 STGEngine.DialogueHide(cDialogueCanvas);
-                EVFrames.EventSpawnA(rRubble, new Vector2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rRubble, new Vector2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 1.0f, 2);
-                EVFrames.EventSpawnC(rRubble, new Vector2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 1.0f, 4);
+                EVFrames.EventSpawnA(rRubble, Util.Vec2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rRubble, Util.Vec2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 1.0f, 2);
+                EVFrames.EventSpawnC(rRubble, Util.Vec2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 1.0f, 4);
                 EVFrames.EventStageEnd(9);
                 break;
             case 10:
-                EVFrames.EventSpawnA(rRubble, new Vector2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 2.0f, 0);
-                EVFrames.EventSpawnB(rRubble, new Vector2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 1.0f, 2);
-                EVFrames.EventSpawnC(rRubble, new Vector2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 3.0f, 4);
+                EVFrames.EventSpawnA(rRubble, Util.Vec2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 2.0f, 0);
+                EVFrames.EventSpawnB(rRubble, Util.Vec2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 1.0f, 2);
+                EVFrames.EventSpawnC(rRubble, Util.Vec2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 3.0f, 4);
                 EVFrames.EventStageEnd(9);
                 break;
             case 11:
-                EVFrames.EventSpawnA(rRubble, new Vector2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rRubble, new Vector2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 3.0f, 2);
-                EVFrames.EventSpawnC(rRubble, new Vector2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 1.0f, 4);
+                EVFrames.EventSpawnA(rRubble, Util.Vec2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rRubble, Util.Vec2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 3.0f, 2);
+                EVFrames.EventSpawnC(rRubble, Util.Vec2(Random.Range(3.0f, 11.0f), fTopSpawn), transform.rotation, vGoDown, 1.0f, 4);
                 EVFrames.EventStageEnd(9);
                 break;
             case 12:
@@ -259,130 +284,131 @@ public class Scene1 : MonoBehaviour
                 break;
             case 15: // 1st Beat
                 STGEngine.DialogueShow(sGreenAI, "Watch out!\n\nPirates!");
-                EVFrames.EventSpawnA(rEnemy, new Vector2(7.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(0.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 16:
                 STGEngine.DialogueHide(cDialogueCanvas);
-                EVFrames.EventSpawnHorMulti(rEnemy, new Vector2(6.2f, fTopSpawn), transform.rotation, vGoDown, 2.0f, 2, 1.0f, 0);
+                EVFrames.EventSpawnHorMulti(rEnemy, Util.Vec2(-1.0f, fTopSpawn), FaceDown, vGoDown, 2.0f, 2, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 17:
-                EVFrames.EventSpawnA(rEnemy, new Vector2(5.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(9.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(-2.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(2.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(2);
                 break;
             case 18: // 2nd Beat
-                EVFrames.EventSpawnA(rEnemy, new Vector2(3.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(11.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(3.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(11.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 19:
-                EVFrames.EventSpawnA(rEnemy, new Vector2(4.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(10.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(4.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(10.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 20:
-                EVFrames.EventSpawnA(rEnemy, new Vector2(5.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(9.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(5.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(9.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(2);
                 break;
             case 21: // 3rd Beat
-                EVFrames.EventSpawnA(rEnemy, new Vector2(5.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(9.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(5.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(9.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 22: 
-                EVFrames.EventSpawnA(rEnemy, new Vector2(5.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(9.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(5.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(9.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 23: 
-                EVFrames.EventSpawnA(rEnemy, new Vector2(5.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(9.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(5.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(9.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(2);
                 break;
             case 24: // 4th Beat
-                EVFrames.EventSpawnA(rEnemy, new Vector2(6.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(8.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(6.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(8.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 25: 
-                EVFrames.EventSpawnA(rEnemy, new Vector2(6.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(8.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(6.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(8.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 26: 
-                EVFrames.EventSpawnA(rEnemy, new Vector2(7.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(7.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(2);
                 break;
             case 27:
-                EVFrames.EventSpawnA(rEnemy2, new Vector2(3.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy2, new Vector2(11.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 3);
+                EVFrames.EventSpawnA(rEnemy2, Util.Vec2(3.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy2, Util.Vec2(11.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 3);
                 EVFrames.EventStageEnd(5);
                 break;
             case 28:
-                EVFrames.EventSpawnA(rEnemy2, new Vector2(3.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy2, new Vector2(11.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 3);
+                EVFrames.EventSpawnA(rEnemy2, Util.Vec2(3.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy2, Util.Vec2(11.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 3);
                 EVFrames.EventStageEnd(5);
                 break;
             case 29:
-                EVFrames.EventSpawnA(rEnemy2, new Vector2(3.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy2, new Vector2(11.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 3);
+                EVFrames.EventSpawnA(rEnemy2, Util.Vec2(3.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy2, Util.Vec2(11.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 3);
                 EVFrames.EventStageEnd(5);
                 break;
             case 30:
-                EVFrames.EventSpawnA(rEnemy2, new Vector2(3.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy2, new Vector2(11.2f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 3);
+                EVFrames.EventSpawnA(rEnemy2, Util.Vec2(3.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy2, Util.Vec2(11.2f, fTopSpawn), FaceDown, vGoDown, 1.0f, 3);
                 EVFrames.EventStageEnd(10);
                 break;
             case 31: //Extended Wave
-                EVFrames.EventSpawnA(rEnemy, new Vector2(3.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(11.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(3.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(11.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 32:
-                EVFrames.EventSpawnA(rEnemy, new Vector2(4.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(10.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(4.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(10.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 33:
-                EVFrames.EventSpawnA(rEnemy, new Vector2(5.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(9.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(5.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(9.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 34:
-                EVFrames.EventSpawnA(rEnemy, new Vector2(6.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(8.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(6.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(8.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 35:
-                EVFrames.EventSpawnA(rEnemy, new Vector2(7.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(7.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(7.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(7.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 36:
-                EVFrames.EventSpawnA(rEnemy, new Vector2(8.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(6.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(8.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(6.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 37:
-                EVFrames.EventSpawnA(rEnemy, new Vector2(9.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(5.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(9.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(5.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 38:
-                EVFrames.EventSpawnA(rEnemy, new Vector2(10.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(4.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(10.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(4.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(1);
                 break;
             case 39:
-                EVFrames.EventSpawnA(rEnemy, new Vector2(11.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
-                EVFrames.EventSpawnB(rEnemy, new Vector2(3.0f, fTopSpawn), transform.rotation, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnA(rEnemy, Util.Vec2(11.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
+                EVFrames.EventSpawnB(rEnemy, Util.Vec2(3.0f, fTopSpawn), FaceDown, vGoDown, 1.0f, 0);
                 EVFrames.EventStageEnd(5);
                 break;
             case 40: //Boss
-                EVFrames.EventSpawnA(rBoss, new Vector2(7.2f, fTopSpawn), transform.rotation, vStayStill, 0, 0);
+                EVFrames.EventSpawnA(rBoss, Util.Vec2(0, fTopSpawn), FaceDown, vStayStill, 0, 0);
                 bBossHasArrived = true;
                 //GameObject Boss = GameObject.FindWithTag("Boss");
                 EVFrames.EventIfDeadEnd("Enemy", 90, 1);

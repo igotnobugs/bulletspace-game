@@ -1,18 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using GameUtils;
+using GlobalVars;
 
 public class STGFramework : MonoBehaviour
 {
     //STG Framework
-    private float fHDirection, fVDirection;
+    //private float fHDirection, fVDirection;
     private AudioSource aAudioSource;
 
     [HideInInspector]
     public bool bPlayerControlEnabled, bShootSwirl, bShootRight = true;
+    [HideInInspector]
 
     private float fShootTimeAc = 0.0f, fShootSoundTimeAc = 0.0f;
     private float fAngle = 0;
@@ -22,133 +20,16 @@ public class STGFramework : MonoBehaviour
     private GameObject oSTGPortraitImage;
     private Text tSTGNameText, tSTGDialogueText;
 
-    [HideInInspector]
-    public int iRep;
-
     public Rigidbody2D rPlayer;
 
     // Use this for initialization
     void Start() {
         bPlayerControlEnabled = false;
-        iRep = 0;
     }
 
     // Update is called once per frame
     void Update() {
     }
-
-    #region -----------  Global Variables
-    public static class GlobalVariables
-    {
-        public static int iScoreCounter;
-        public static int iPlayerState;
-    }
-    #endregion
-
-    #region -----------  Player Controls
-    ///<summary>
-    ///Allow object to be moved to be moved by the player.
-    ///</summary> 
-    public void PlayerShipMovement(KeyCode LeftKey, KeyCode RightKey, KeyCode UpKey, KeyCode DownKey, Vector2 BottomLeftCorner, Vector2 UpperRightCorner, bool bEnabled)
-    {
-        bool bReachedLimitLeft, bReachedLimitRight, bReachedLimitUp, bReachedLimitDown;
-        //this.bPlayerControlEnabled = bEnabled;
-
-        if (this.transform.position.x < BottomLeftCorner.x)
-        {bReachedLimitLeft = true;}
-        else {bReachedLimitLeft = false;}
-
-        if (this.transform.position.x > UpperRightCorner.x)
-        {bReachedLimitRight = true;}
-        else {bReachedLimitRight = false;}
-
-        if (this.transform.position.y > UpperRightCorner.y)
-        {bReachedLimitUp = true;}
-        else {bReachedLimitUp = false;}
-
-        if (this.transform.position.y < BottomLeftCorner.y)
-        {bReachedLimitDown = true;}
-        else {bReachedLimitDown = false;}
-
-        if (((!Input.GetKey(LeftKey)) && (!Input.GetKey(RightKey))) ||
-            ((this.transform.position.x <= BottomLeftCorner.x) || (this.transform.position.x >= UpperRightCorner.x)))
-        {
-            fHDirection = 0;
-            Quaternion target = Quaternion.Euler(0, 0, 0);
-            this.transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 50.0f);
-        }
-
-        if (((!Input.GetKey(DownKey)) && (!Input.GetKey(UpKey))) ||
-            ((this.transform.position.y <= BottomLeftCorner.y) || (this.transform.position.y >= UpperRightCorner.y)))
-        {
-            fVDirection = 0;
-        }
-
-        if (bEnabled == true)
-        {
-            //Left 0 
-            if (((Input.GetKeyDown(LeftKey)) && (fHDirection >= 0) ||
-                (Input.GetKey(LeftKey)) && (Input.GetKeyUp(RightKey))) &&
-                (!bReachedLimitLeft))
-            {
-                fHDirection = -1.0f;
-                Quaternion target = Quaternion.Euler(0, -60, 0);
-                this.transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 50.0f);
-            }
-
-            //Right 1
-            if (((Input.GetKeyDown(RightKey)) && (fHDirection <= 0) ||
-                (Input.GetKey(RightKey)) && (Input.GetKeyUp(LeftKey))) &&
-                (!bReachedLimitRight))
-            {
-                fHDirection = 1.0f;
-                Quaternion target = Quaternion.Euler(0, 60, 0);
-                this.transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 50.0f);
-            }
-
-            //Down 2
-            if (((Input.GetKeyDown(DownKey)) && (fVDirection >= 0) ||
-                (Input.GetKey(DownKey)) && (Input.GetKeyUp(UpKey))) &&
-                (!bReachedLimitDown))
-            {
-                fVDirection = -1.0f;
-            }
-
-            //Up 3
-            if (((Input.GetKeyDown(UpKey)) && (fVDirection <= 0) ||
-                (Input.GetKey(UpKey)) && (Input.GetKeyUp(DownKey))) &&
-                (!bReachedLimitUp))
-            {
-                fVDirection = 1.0f;
-            }
-        }        
-    } 
-
-    public void PlayerShipSpeedMovement(KeyCode kBrake, float fNormSpeed, float fDivisorSpeed = 2.0f)
-    {
-        if (Input.GetKey(kBrake))
-        {
-            fVDirection = fVDirection / fDivisorSpeed;
-            fHDirection = fHDirection / fDivisorSpeed;
-        }
-
-        rPlayer.velocity = new Vector2(fNormSpeed * fHDirection, fNormSpeed * fVDirection);      
-    }
-
-
-    public void EnablePlayerControls(string sTag = "Player")
-    {
-        GameObject Object = GameObject.FindWithTag(sTag);
-        Object.GetComponent<STGFramework>().bPlayerControlEnabled = true;
-    }
-
-    public void DisablePlayerControls(string sTag = "Player")
-    {
-        GameObject Object = GameObject.FindWithTag(sTag);
-        Object.GetComponent<STGFramework>().bPlayerControlEnabled = false;
-    }
-
-    #endregion
 
     #region -----------  Spawning Commands
     public void SpawnPlayer(Rigidbody2D rObj, Vector2 vLoc, Quaternion qRot, Vector2 vDir, float fAddSpd = 0)
@@ -162,6 +43,14 @@ public class STGFramework : MonoBehaviour
     {
         Rigidbody2D instObject = Instantiate(rObj, vLoc, qRot);
         instObject.velocity = transform.TransformDirection(new Vector2(vDir.x * fAddSpd, vDir.y * fAddSpd));
+    }
+    #endregion
+
+    #region -----------  Special Commands
+    public void ActivateShield(Rigidbody2D shieldObject, Vector2 vectorLocation, Quaternion qRot)
+    {
+        Rigidbody2D instObject = Instantiate(shieldObject, vectorLocation, qRot);
+        //instObject.velocity = transform.TransformDirection(new Vector2(vDir.x * fAddSpd, vDir.y * fAddSpd));
     }
     #endregion
 
@@ -275,6 +164,7 @@ public class STGFramework : MonoBehaviour
     }
 
     //Lead targets --- WIP
+    /*
     public void ShootAimedLeading(Rigidbody2D rBullet, string sTarget, float fSpeed = 1.0f)
     {
         Rigidbody2D instBullet;
@@ -301,11 +191,13 @@ public class STGFramework : MonoBehaviour
         instBullet = Instantiate(rBullet, transform.position, transform.rotation) as Rigidbody2D;
         instBullet.velocity = new Vector2(newx, newy);
     }
+    */
 
     //Shoot in all directions at once
     public void ShootAround(Rigidbody2D rBullet, int iBulletCount, float fSpeed = 1.0f, int iReps = 1)
     {
-        if (iRep < iReps)
+        int rep = 0;
+        if (rep < iReps)
         {
             for (float angle = 0.0f; angle < 360.0f; angle += (360.0f / iBulletCount))
             {
@@ -315,7 +207,7 @@ public class STGFramework : MonoBehaviour
                 vDir.y = Mathf.Cos(rad);
                 ShootBullet(rBullet, vDir, fSpeed);
             }
-            iRep++;
+            rep++;
         }
     }
 
@@ -384,16 +276,17 @@ public class STGFramework : MonoBehaviour
     #endregion
 
     #region -----------  Score Counter Commands
+
     public void ScoretoAddtoCounter(Text tScoreCounter, int iScore)
     {
-        GlobalVariables.iScoreCounter += iScore;
-        tScoreCounter.text = "" + GlobalVariables.iScoreCounter;
+        GlobVars.ScoreCounter += iScore;
+        tScoreCounter.text = "" + GlobVars.ScoreCounter;
     }
 
     public void ScoreResetZero(Text tScoreCounter)
     {
-        GlobalVariables.iScoreCounter = 0;
-        tScoreCounter.text = "" + GlobalVariables.iScoreCounter;
+        GlobVars.ScoreCounter = 0;
+        tScoreCounter.text = "" + GlobVars.ScoreCounter;
     }
     #endregion
 

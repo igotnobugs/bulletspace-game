@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Boss1Script : MonoBehaviour
 {
@@ -40,6 +41,9 @@ public class Boss1Script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        MovementScript Move = gameObject.AddComponent<MovementScript>();
+        ShootingMechanics Shoot = gameObject.AddComponent<ShootingMechanics>();
+
         GameObject SceneManager = GameObject.FindWithTag("SceneManager");
         Scene1 ScoreCounter = SceneManager.GetComponent<Scene1>();
         Scene1 ResetOnGoing = SceneManager.GetComponent<Scene1>();
@@ -57,20 +61,21 @@ public class Boss1Script : MonoBehaviour
             switch (AIFrames.iMovementStage)
             {
                 case 1:
-                    STGEngine.MoveTowards(new Vector2(7.2f, 7.2f), 1);
+                    Move.Towards(new Vector2(0, 0), 1);
+                    Shoot.AroundSwirl(rMainProjec, 10, 4);
                     AIFrames.EventMoveEnd(12.0f);
                     break;
                 case 2:
-                    STGEngine.MoveTowards(new Vector2(6.2f, 7.2f), 1);
+                    Move.Towards(new Vector2(-2.0f, 0), 1);
                     STGEngine.ShootAroundSwirl(rMainProjec, 20, 0.05f, 4, 1, false);
                     AIFrames.EventMoveEnd(2.0f);
                     break;
                 case 3:
-                    STGEngine.ShootAround(rMainProjec, 20, 4, 1);
-                    AIFrames.EventMoveEnd(2.0f);
+                    Shoot.Around(rMainProjec, 20, 4);
+                    AIFrames.EventMoveEnd(0.0f);
                     break;
                 case 4:
-                    STGEngine.MoveTowards(new Vector2(9.2f, 7.2f), 1);
+                    STGEngine.MoveTowards(new Vector2(2.0f, 0), 1);
                     STGEngine.ShootAroundSwirl(rMainProjec, 20, 0.05f, 4, 1, true);
                     AIFrames.EventMoveEnd(2.0f);
                     break;
@@ -83,11 +88,11 @@ public class Boss1Script : MonoBehaviour
                     AIFrames.EventMoveEnd(2.0f);
                     break;
                 case 7:
-                    STGEngine.ShootAimedLeading(rMainProjec, "Player", 10);
+                    //STGEngine.ShootAimedLeading(rMainProjec, "Player", 10);
                     AIFrames.EventMoveEnd(2.0f);
                     break;
                 case 8:
-                    STGEngine.MoveTowards(new Vector2(7.2f, 10.2f), 1);
+                    STGEngine.MoveTowards(new Vector2(0, 1), 1);
                     AIFrames.EventMoveEnd(2.0f);
                     break;
                 case 9:
@@ -124,10 +129,10 @@ public class Boss1Script : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject Bullet = collision.gameObject;
-        BulletScript TargetStatus = Bullet.GetComponent<BulletScript>();
+        BulletController TargetStatus = Bullet.GetComponent<BulletController>();
         if (collision.gameObject.tag == "FriendlyBullet")
         {
-            iHealth -= TargetStatus.iBulletDamage;
+            //iHealth -= TargetStatus.iBulletDamage;
             aAudioSource.PlayOneShot(aBasicHitSound, 0.8f);
             STGEngine.SpawnPrefab(rFXHit, Bullet.transform.position, Bullet.transform.rotation, new Vector2(0, 0) , 0);
         }
