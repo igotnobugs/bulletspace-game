@@ -1,29 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class BulletController : MonoBehaviour
 {
-    public bool standard = true;
-    public bool missile = false;
-    public bool missileLocksOn = false;
-    public bool missileHeatSeek = false;
+    public string bulletType = "standard";
+    //standard, missile, missilelockson, missileheateffect
 
+    //Universal
     public int damage = 1;
     public float speed = 1.0f;
-    public float acceleration = 0.2f;
+
+    //Missile 
+    public float acceleration = 0.1f;
+    public float maxSpeed = 20.0f;
     public float delay = 0;
     public float lockOnDelay = 0;
     public string targetTag;
+    public float targetDistanceNeeded = 1.0f;
+    private float targetDistance;
+
+   
     public bool explodeOnTargetLocation = false;
-
-    public Rigidbody2D hitEffect;
-
     public bool destroyOnImpact = true;
 
     private bool missileFired = false;
-    private Vector2 targetLocation;
-    public bool enemyFound = false;
+    private Vector3 targetLocation;
+
+    public Rigidbody2D hitEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -34,15 +39,15 @@ public class BulletController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (standard)
+        if (bulletType == "standard")
         {
             StartCoroutine("shootStandard");
         }
-        else if ((missile) && (!missileFired))
+        else if ((bulletType == "missile") && (!missileFired))
         {
             StartCoroutine("shootMissile");
         }
-        else if ((missileLocksOn) && (!missileFired))
+        else if ((bulletType == "missilelockson") && (!missileFired))
         {
             if (string.IsNullOrEmpty(targetTag))
             {
@@ -57,7 +62,7 @@ public class BulletController : MonoBehaviour
 
     void OnBecameInvisible()
     {
-        Destroy(gameObject, 2);
+        Destroy(gameObject, 1);
     }
 
     void shootStandard()
@@ -70,43 +75,66 @@ public class BulletController : MonoBehaviour
     void shootMissile()
     {
         speed += acceleration;
-        transform.Translate(Vector2.up * speed * Time.deltaTime);
+        speed = Mathf.Clamp(speed, 0, maxSpeed);
+        transform.Translate(Vector2.up * speed * Time.deltaTime);   
     }
 
     void shootMissileLock()
     {
-        //new WaitForSeconds(delay);
-        GameObject targetObject = GameObject.FindWithTag(targetTag);
-
-
-        if ((targetObject) && (!missileFired))
+        while (delay > 0)
         {
-            targetLocation = targetObject.transform.position;
+            delay -= Time.deltaTime;
+        }
+        if (delay < 0)
+        {
+            GameObject[] enemys = GameObject.FindGameObjectsWithTag(targetTag);
+            GameObject closest = null;
 
-            if (explodeOnTargetLocation)
+            foreach (GameObject enemy in enemys)
             {
+                Vector3 diff = enemy.transform.position - transform.position;
+                float curDistance = diff.sqrMagnitude;
+                if (curDistance < targetDistanceNeeded)
+                {
+                    closest = enemy;
+                    targetDistance = curDistance;
+                }
+            }
+
+            if ((closest) && (!missileFired))
+            {
+                targetLocation = closest.transform.position;
                 speed += acceleration;
-                transform.position = Vector2.MoveTowards(transform.position, targetLocation, speed * Time.deltaTime);
+                speed = Mathf.Clamp(speed, 0, maxSpeed);
+                if (explodeOnTargetLocation)
+                {
+                    //Stay on direction, presumable to explode
+                    transform.position = Vector2.MoveTowards(transform.position, targetLocation, speed * Time.deltaTime);
+                }
+                else
+                {
+                    //Continue direction
+                    //get
+                    var direction = targetLocation - transform.position;
+                    direction.Normalize();
+                    Debug.Log(direction);
+                    transform.Translate(direction * speed * Time.deltaTime);
+                }
             }
             else
             {
-                //targetLocation.Normalize();
+                //No closest enemy then contiue.
                 speed += acceleration;
-                transform.position = Vector2.MoveTowards(transform.position, targetLocation, speed * Time.deltaTime);
+                speed = Mathf.Clamp(speed, 0, maxSpeed);
+                transform.Translate(Vector2.up * speed * Time.deltaTime);
             }
 
-        }
-        else
-        {
-            //Nothing
-            speed += acceleration;
-            transform.Translate(Vector2.up * speed * Time.deltaTime);
-        }
-        
-        if (missileFired)
-        {
-            speed += acceleration;
-            transform.position = Vector2.MoveTowards(transform.position, targetLocation, speed * Time.deltaTime);
+            if (missileFired)
+            {
+                speed += acceleration;
+                speed = Mathf.Clamp(speed, 0, maxSpeed);
+                transform.position = Vector2.MoveTowards(transform.position, targetLocation, speed * Time.deltaTime);
+            }
         }
 
     }

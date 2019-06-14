@@ -6,8 +6,8 @@ namespace GlobalVars
 {
     public class GlobVars : MonoBehaviour
     {
-        public static Vector2 BottomLeftBorder;
-        public static Vector2 UpperRightBorder;
+        public static Vector2 BottomLeftBorder = new Vector2(-4.5f, -4.5f);
+        public static Vector2 UpperRightBorder = new Vector2(4.5f, 4.5f);
         public static int ScoreCounter;
         public static bool PlayerState;
 

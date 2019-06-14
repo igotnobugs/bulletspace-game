@@ -38,6 +38,8 @@ public class EnemyController : MonoBehaviour
 
     // Start is called before the first frame update
     public bool debugDontFire;
+    public bool debugInvulnerable;
+
     void Start()
     {
         STGEngine = GetComponent<STGFramework>();
@@ -65,7 +67,7 @@ public class EnemyController : MonoBehaviour
             }
         }
 
-        if ((shipHealth <= 0) && (isAlive))
+        if ((shipHealth <= 0) && (isAlive) && (!debugInvulnerable))
         {
             AudioSource.PlayOneShot(DestroySound, 1.0f);
             isAlive = false;
@@ -85,11 +87,11 @@ public class EnemyController : MonoBehaviour
     {
         BulletController bullet = collision.gameObject.GetComponent<BulletController>();
 
-        if ((collision.gameObject.tag == "Friendly") && (shipHealth != 0))
+        if ((collision.gameObject.tag == "Friendly"))
         {
             shipHealth -= bullet.damage;
             AudioSource.PlayOneShot(BasicHitSound, 1.0f);
-            STGEngine.SpawnPrefab(bullet.hitEffect, this.transform.position, this.transform.rotation, new Vector2(0, 0), 0);
+            STGEngine.SpawnPrefab(bullet.hitEffect,transform.position, transform.rotation, new Vector2(0, 0), 0);
         }
     }
 

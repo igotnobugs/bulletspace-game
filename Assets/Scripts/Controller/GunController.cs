@@ -28,6 +28,9 @@ public class GunController : MonoBehaviour
     public Transform firePoint2;
     public AudioClip ShootSound2;
 
+    private Vector2 fireLocation;
+    private Quaternion fireRotation;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,35 +59,43 @@ public class GunController : MonoBehaviour
             if (shotCounter <= 0)
             {
                 shotCounter = 1 - (fireRate/100);
-                if (fireLeft)
+
+                //If Gun Oscilates between two firing positions else defaults to one.
+                if (isOscilatingGun)
                 {
-                    BulletController newbullet = Instantiate(bullet, firePoint1.position, firePoint1.rotation) as BulletController;
-                    newbullet.speed = bulletSpeed;
-                    newbullet.tag = tag;
-                    if (isOscilatingGun)
+                    if (fireLeft)
                     {
+                        fireLocation = firePoint1.position;
+                        fireRotation = firePoint1.rotation;
                         fireLeft = false;
                     }
-                    if (isPlayerGun)
+                    else
                     {
-                        newbullet.targetTag = "Enemy";
-                        newbullet.standard = false;
-                        newbullet.missileLocksOn = true;
+                        fireLocation = firePoint2.position;
+                        fireRotation = firePoint2.rotation;
+                        fireLeft = true;
                     }
                 } else
                 {
-                    BulletController newbullet = Instantiate(bullet, firePoint2.position, firePoint2.rotation) as BulletController;
-                    newbullet.speed = bulletSpeed;
-                    newbullet.tag = tag;
-                    fireLeft = true;
-                    if (isPlayerGun)
-                    {
-                        newbullet.targetTag = "Enemy";
-                        newbullet.standard = false;
-                        newbullet.missileLocksOn = true;
-                    }
+                    fireLocation = firePoint1.position;
+                    fireRotation = firePoint1.rotation;
                 }
+
+                BulletController newbullet = Instantiate(bullet, fireLocation, fireRotation) as BulletController;
+                newbullet.speed = bulletSpeed;
+                newbullet.tag = tag;
                 AudioSource.PlayOneShot(ShootSound1, 1);
+
+                //set player specific variables
+                if (isPlayerGun)
+                {
+
+                    newbullet.targetTag = "Enemy";
+                    newbullet.bulletType = "missilelockson";
+                    newbullet.targetDistanceNeeded = 99.0f;
+
+                }
+
                 //player.heatSink += player.mainHeatCost;
             }
             //Debug.Log(shotCounter);
