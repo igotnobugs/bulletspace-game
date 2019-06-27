@@ -17,6 +17,9 @@ public class EnemyController : MonoBehaviour
     public float shipSpeed = 1.0f;
     public float delayToFire = 2.0f;
 
+    //Behavior
+    public bool faceThePlayer = false;
+
     //public bool isShieldDeployed = false;
     //public float shieldHealth = 10.0f;
     //public float shieldDuration;
@@ -34,7 +37,7 @@ public class EnemyController : MonoBehaviour
 
     public GunController theGun;
     //public ShieldController theShield;
-    // public GameObject shield;
+    //public GameObject shield;
 
     // Start is called before the first frame update
     public bool debugDontFire;
@@ -64,6 +67,21 @@ public class EnemyController : MonoBehaviour
             if ((theGun.isFiring == false) && (isAlive) && (!debugDontFire))
             {
                 theGun.isFiring = true;
+            }
+        }
+
+        if (faceThePlayer)
+        {
+            GameObject Target = GameObject.FindWithTag("Player");
+            if (Target)
+            {
+                PlayerController targetscript = Target.GetComponent<PlayerController>();
+                float targetspeed = targetscript.shipSpeed;
+                Vector2 targetdirection = targetscript.playerDirection;
+                float xpos = Target.transform.position.x + (targetscript.playerDirection.x * targetscript.shipSpeed) - this.transform.position.x;
+                float ypos = Target.transform.position.y + (targetscript.playerDirection.y * targetscript.shipSpeed) - this.transform.position.y;
+                float angle = Mathf.Atan2(ypos, xpos) * Mathf.Rad2Deg;
+                this.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
             }
         }
 

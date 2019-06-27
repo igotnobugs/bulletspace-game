@@ -59,7 +59,6 @@ public class GunController : MonoBehaviour
             if (shotCounter <= 0)
             {
                 shotCounter = 1 - (fireRate/100);
-
                 //If Gun Oscilates between two firing positions else defaults to one.
                 if (isOscilatingGun)
                 {
@@ -83,17 +82,18 @@ public class GunController : MonoBehaviour
 
                 BulletController newbullet = Instantiate(bullet, fireLocation, fireRotation) as BulletController;
                 newbullet.speed = bulletSpeed;
-                newbullet.tag = tag;
                 AudioSource.PlayOneShot(ShootSound1, 1);
 
                 //set player specific variables
                 if (isPlayerGun)
                 {
-
                     newbullet.targetTag = "Enemy";
                     newbullet.bulletType = "missilelockson";
                     newbullet.targetDistanceNeeded = 99.0f;
-
+                    newbullet.tag = tag;
+                } else
+                {
+                    newbullet.tag = "EnemyBullet";
                 }
 
                 //player.heatSink += player.mainHeatCost;

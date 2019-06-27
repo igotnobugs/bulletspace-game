@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
     private STGFramework STGEngine;
     private AudioSource AudioSource;
 
-    private Vector2 playerDirection;
+    [HideInInspector]
+    public Vector2 playerDirection;
 
     //The Ship
     private Rigidbody2D SelfRigidBody;
@@ -156,7 +157,7 @@ public class PlayerController : MonoBehaviour
     {
         BulletController bullet = collision.gameObject.GetComponent<BulletController>();
 
-        if ((collision.gameObject.tag == "Enemy") && (!bHitOnce) && (shipHealth != 0))
+        if ((collision.gameObject.tag == "EnemyBullet") && (!bHitOnce) && (shipHealth != 0))
         {
             shipHealth -= bullet.damage;
             AudioSource.PlayOneShot(BasicHitSound, 1.0f);

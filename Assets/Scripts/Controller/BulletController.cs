@@ -83,9 +83,10 @@ public class BulletController : MonoBehaviour
     {
         while (delay > 0)
         {
-            delay -= Time.deltaTime;
+            delay = delay - Time.deltaTime;
         }
-        if (delay < 0)
+
+        if (delay <= 0)
         {
             GameObject[] enemys = GameObject.FindGameObjectsWithTag(targetTag);
             GameObject closest = null;
