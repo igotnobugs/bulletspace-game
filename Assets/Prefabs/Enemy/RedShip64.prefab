@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4885053770610994}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &198957586949306334
 ParticleSystem:
@@ -2125,6 +2125,62 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+  LifetimeByEmitterSpeedModule:
+    enabled: 0
+    m_Curve:
+      serializedVersion: 2
+      minMaxState: 1
+      scalar: 1
+      minScalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: -0.8
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 0.2
+          inSlope: -0.8
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    m_Range: {x: 0, y: 1}
   ForceModule:
     enabled: 0
     x:
@@ -4705,11 +4761,12 @@ ParticleSystemRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4717,6 +4774,7 @@ ParticleSystemRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -4746,6 +4804,8 @@ ParticleSystemRenderer:
   m_EnableGPUInstancing: 1
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
+  m_FreeformStretching: 0
+  m_RotateWithStretchDirection: 1
   m_VertexStreams: 00010304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
@@ -4765,8 +4825,8 @@ GameObject:
   - component: {fileID: 50528354997821128}
   - component: {fileID: 61127666981765424}
   - component: {fileID: 82540948214979336}
-  - component: {fileID: 3522457507475334467}
-  - component: {fileID: -703021727938977167}
+  - component: {fileID: 4593249363583680934}
+  - component: {fileID: 2742480951250127837}
   m_Layer: 10
   m_Name: RedShip64
   m_TagString: Enemy
@@ -4785,7 +4845,6 @@ Transform:
   m_LocalPosition: {x: 5.34, y: 4.79, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6807216962730429815}
   - {fileID: 4340379956534626}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -4804,6 +4863,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -4815,6 +4876,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -4883,7 +4945,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.64, y: 0.64}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!82 &82540948214979336
 AudioSource:
@@ -4981,7 +5043,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3522457507475334467
+--- !u!114 &4593249363583680934
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4990,25 +5052,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1617881428629456}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78447decf6fff924abf3e543a0a5d151, type: 3}
+  m_Script: {fileID: 11500000, guid: 69f23f02d4e000e41bab27452b9c9dd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipHealth: 1
+  shipHealth: 3
   isAlive: 1
-  fireRate: 10
-  shipSpeed: 1
+  shipSpeed: 3
+  mainWeapon: {fileID: 2742480951250127837}
   delayToFire: 2
-  BasicHitSound: {fileID: 8300000, guid: 321059fefdbed734683d8e062e1577b1, type: 3}
-  DestroySound: {fileID: 8300000, guid: 916fea7d0c9306049858e8370ec81bc8, type: 3}
-  rFXHit: {fileID: 50859057399223346, guid: 71e0aca6e9047d14bb535c54b104a99f, type: 3}
-  FIRERATE_MAX: 0
-  SHIELD_COOLDOWN_MAX: 0
-  HEATSINK_MAX: 0
-  HEAT_COOLDOWN_MAX: 0
-  SHIP_HEALTH_MAX: 0
-  theGun: {fileID: 7858436033984739901}
-  debugDontFire: 1
---- !u!114 &-703021727938977167
+--- !u!114 &2742480951250127837
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5017,155 +5069,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1617881428629456}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ceb7574014d3ca488377a8d01e94715, type: 3}
+  m_Script: {fileID: 11500000, guid: 775c4b62706144341a52d59b21036d92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bPlayerControlEnabled: 0
-  bShootSwirl: 0
-  bShootRight: 1
-  rPlayer: {fileID: 0}
---- !u!1001 &374932842898193437
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 4885053770610994}
-    m_Modifications:
-    - target: {fileID: 1389795703736280403, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: m_Name
-      value: RedShipGun
-      objectReference: {fileID: 0}
-    - target: {fileID: 6578651494371651946, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6578651494371651946, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6578651494371651946, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6578651494371651946, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6578651494371651946, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6578651494371651946, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6578651494371651946, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6578651494371651946, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6578651494371651946, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6578651494371651946, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6578651494371651946, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7510529186899478048, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: enemy
-      value: 
-      objectReference: {fileID: 3522457507475334467}
-    - target: {fileID: 7510529186899478048, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: bullet
-      value: 
-      objectReference: {fileID: -2983410091141955466, guid: 2095a310944b08d4fafd629c65b5dfa7,
-        type: 3}
-    - target: {fileID: 7510529186899478048, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: bulletSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7510529186899478048, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: fireRate
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 7510529186899478048, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: isOscilatingGun
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7510529186899478048, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: firePoint1
-      value: 
-      objectReference: {fileID: 3055484360519035531}
-    - target: {fileID: 7510529186899478048, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: firePoint2
-      value: 
-      objectReference: {fileID: 1771437093895369185}
-    - target: {fileID: 7510529186899478048, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: ShootSound1
-      value: 
-      objectReference: {fileID: 8300000, guid: 5c31d08b37862734db2aba50034635e4, type: 3}
-    - target: {fileID: 7510529186899478048, guid: 0f5c90716a7ab464595ae88514efd935,
-        type: 3}
-      propertyPath: ShootSound2
-      value: 
-      objectReference: {fileID: 8300000, guid: 5c31d08b37862734db2aba50034635e4, type: 3}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0f5c90716a7ab464595ae88514efd935, type: 3}
---- !u!4 &6807216962730429815 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6578651494371651946, guid: 0f5c90716a7ab464595ae88514efd935,
-    type: 3}
-  m_PrefabInstance: {fileID: 374932842898193437}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7858436033984739901 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7510529186899478048, guid: 0f5c90716a7ab464595ae88514efd935,
-    type: 3}
-  m_PrefabInstance: {fileID: 374932842898193437}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78bef7d91038c9d40a70133203388ca4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &3055484360519035531 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3410146005716129430, guid: 0f5c90716a7ab464595ae88514efd935,
-    type: 3}
-  m_PrefabInstance: {fileID: 374932842898193437}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1771437093895369185 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2135110611188026876, guid: 0f5c90716a7ab464595ae88514efd935,
-    type: 3}
-  m_PrefabInstance: {fileID: 374932842898193437}
-  m_PrefabAsset: {fileID: 0}
+  bullet: {fileID: 8513750998043598738, guid: 2095a310944b08d4fafd629c65b5dfa7, type: 3}
+  fireRate: 1

@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6578651494371651946}
   - component: {fileID: 1394386791774667710}
-  - component: {fileID: 7510529186899478048}
   - component: {fileID: 3914611188749209461}
+  - component: {fileID: 5856997980988562824}
   m_Layer: 10
   m_Name: RedShipGun
   m_TagString: Enemy
@@ -49,6 +49,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -60,6 +62,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -83,31 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7510529186899478048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1389795703736280403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78bef7d91038c9d40a70133203388ca4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isFiring: 0
-  fireLeft: 1
-  bullet: {fileID: 0}
-  player: {fileID: 0}
-  enemy: {fileID: 0}
-  isPlayerGun: 0
-  bulletSpeed: 10
-  fireRate: 100
-  isOscilatingGun: 1
-  firePoint1: {fileID: 3410146005716129430}
-  ShootSound1: {fileID: 8300000, guid: 5c31d08b37862734db2aba50034635e4, type: 3}
-  firePoint2: {fileID: 2135110611188026876}
-  ShootSound2: {fileID: 8300000, guid: 5c31d08b37862734db2aba50034635e4, type: 3}
 --- !u!82 &3914611188749209461
 AudioSource:
   m_ObjectHideFlags: 0
@@ -204,6 +182,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5856997980988562824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389795703736280403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 775c4b62706144341a52d59b21036d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 0}
+  fireRate: 1
+  barrels:
+  - {fileID: 3410146005716129430}
+  - {fileID: 2135110611188026876}
+  roundRobin: 0
 --- !u!1 &3995040926950816361
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +212,7 @@ GameObject:
   m_Layer: 10
   m_Name: RightGun
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -246,7 +242,7 @@ GameObject:
   m_Layer: 10
   m_Name: LeftGun
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

@@ -6,8 +6,8 @@ using GlobalVars;
 public class Scene1 : MonoBehaviour
 {
     //Always needed for every Scene
-    private STGFramework STGEngine;
-    private EVFramework EVFrames;
+    //private STGFramework STGEngine;
+    //private EVFramework EVFrames;
 
     //Vectors to call
     public Vector2 vStartingLocation;
@@ -15,8 +15,8 @@ public class Scene1 : MonoBehaviour
     public float fTopSpawn;
     private Vector2 vStayStill = Util.Vec2(0, 0);
     private Vector2 vGoDown = Util.Vec2(0, -1.0f);
-    public Vector2 BottomLeftBorder = Util.Vec2(-4.5f, -4.5f);
-    public Vector2 UpperRightBorder = Util.Vec2(4.5f, 4.5f);
+    //public Vector2 BottomLeftBorder = Util.Vec2(-4.5f, -4.5f);
+    //public Vector2 UpperRightBorder = Util.Vec2(4.5f, 4.5f);
     public Quaternion FaceDown = new Quaternion(0, 0, 180, 0);
 
     //Audio to Play
@@ -46,21 +46,21 @@ public class Scene1 : MonoBehaviour
     public GameObject pPlayerGunHeatBar;
 
     //Random Things
-    private bool bPlayerSpawned = false;
+    //private bool bPlayerSpawned = false;
     public bool bResetOnGoing = false;
-    private float TimeT;
-    private int TimeTR;
-    private bool bScoreAdded = false;
+    //private float TimeT;
+    //private int TimeTR;
+    //private bool bScoreAdded = false;
 
     //Character Things
-    private readonly string sGreenAI = "<color=#21FF00>Green AI</color>";
+    //private readonly string sGreenAI = "<color=#21FF00>Green AI</color>";
 
     //Stage Scenes
-    private bool bGameStarted = false;
-    private bool bToldtoKillSelf = false;
-    private bool bKnowsWhatFDoes = false;
-    private bool bKilledBeforeKnowing = false;
-    private bool bBossHasArrived = false;
+    //private bool bGameStarted = false;
+    //private bool bToldtoKillSelf = false;
+    //private bool bKnowsWhatFDoes = false;
+    //private bool bKilledBeforeKnowing = false;
+    //private bool bBossHasArrived = false;
 
     //Debug Skips
     public bool bSkipToRubble = false;
@@ -69,11 +69,6 @@ public class Scene1 : MonoBehaviour
     public bool bSkipToBoss = false;
 
 
-    public static KeyCode shootKey = KeyCode.Space;
-    public static KeyCode leftKey = KeyCode.A;
-    public static KeyCode rightKey = KeyCode.D;
-    public static KeyCode upKey = KeyCode.W;
-    public static KeyCode downKey = KeyCode.S;
     public static KeyCode shieldKey = KeyCode.E;
     public static KeyCode suicideKey = KeyCode.F;
     public static KeyCode brakeKey = KeyCode.LeftShift;
@@ -81,51 +76,41 @@ public class Scene1 : MonoBehaviour
 
     // Use this for initialization
     void Start() {
-        STGEngine = GetComponent<STGFramework>();
-        EVFrames = GetComponent<EVFramework>();
+        //STGEngine = GetComponent<STGFramework>();
+        //EVFrames = GetComponent<EVFramework>();
         aAudioSource = GetComponent<AudioSource>();
 
         //Limit Framerate
         //Application.targetFrameRate = 60;
 
-        //Set the Player Controls
-        GlobVars.kShoot = shootKey;
-        GlobVars.kLeft = leftKey;
-        GlobVars.kRight = rightKey;
-        GlobVars.kUp = upKey;
-        GlobVars.kDown = downKey;
-        GlobVars.kShield = shieldKey;
-        GlobVars.kSuicide = suicideKey;
-        GlobVars.kBrake = brakeKey;
-        GlobVars.kQuit = quitKey;
-
         //Set the Player Border
-        GlobVars.BottomLeftBorder = BottomLeftBorder;
-        GlobVars.UpperRightBorder = UpperRightBorder;
+        //GlobVars.BottomLeftBorder = BottomLeftBorder;
+        //GlobVars.UpperRightBorder = UpperRightBorder;
     }
 
     // Update is called once per frame
     void Update() {
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            STGEngine.Quit();
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    STGEngine.Quit();
+        //}
 
         //For all Stages
+        /*
         if (bPlayerSpawned)
         {
 
-            GameObject Player = GameObject.FindWithTag("Player");
-            if (!Player)
-            {
-                EVFrames.EventStageStart(80); //GameOverStage
-                bPlayerSpawned = false;
-            }
+            //GameObject Player = GameObject.FindWithTag("Player");
+            //if (!Player)
+            //{
+            //    EVFrames.EventStageStart(80); //GameOverStage
+            //    bPlayerSpawned = false;
+            //}
 
-            PlayerController PlayerHeat = Player.GetComponent<PlayerController>();
-            float HeatPercentage = (PlayerHeat.heatSink / PlayerHeat.HEATSINK_MAX);
-            STGEngine.UIBarSize(pPlayerGunHeatBar, Util.Vec2(1, HeatPercentage));
+            //PlayerController PlayerHeat = Player.GetComponent<PlayerController>();
+            //float HeatPercentage = (PlayerHeat.heatSink / PlayerHeat.HEATSINK_MAX);
+            //STGEngine.UIBarSize(pPlayerGunHeatBar, Util.Vec2(1, HeatPercentage));
 
             //Scoring system add 1 point every 2 seconds
             TimeT += Time.deltaTime;
@@ -480,6 +465,7 @@ public class Scene1 : MonoBehaviour
                 break;
         }
         #endregion
-
+        */
     }
+
 }

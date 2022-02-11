@@ -66,8 +66,8 @@ public class RubbleScript : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject Bullet = collision.gameObject;
-        BulletScript TargetStatus = Bullet.GetComponent<BulletScript>();
-
+        //BulletScript TargetStatus = Bullet.GetComponent<BulletScript>();
+        /*
         if (collision.gameObject.tag == "FriendlyBullet")
         {
             iHealth -= TargetStatus.iBulletDamage;
@@ -80,6 +80,6 @@ public class RubbleScript : MonoBehaviour {
             iHealth = -100;
             aAudioSource.PlayOneShot(aBasicHitSound, 1.0f);
             STGEngine.SpawnPrefab(rFXHit, Bullet.transform.position, Bullet.transform.rotation, new Vector2(0, 0), 0);
-        }
+        }*/
     }
 }

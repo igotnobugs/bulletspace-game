@@ -24,18 +24,18 @@ public class UIPlayerImage : MonoBehaviour
 
         if (PlayerObject)
         {
-            PlayerController Player = PlayerObject.GetComponent<PlayerController>();
+            Ship Player = PlayerObject.GetComponent<PlayerShip>();
             if (Player.isAlive == true)
             {
-                if (Player.shipHealth == Player.SHIP_HEALTH_MAX)
-                {
-                    PlayerImage.color = Color.cyan;
-                }
+                //if (Player.shipHealth == Player.SHIP_HEALTH_MAX)
+                //{
+                //    PlayerImage.color = Color.cyan;
+                //}
 
-                if (Player.shipHealth < Player.SHIP_HEALTH_MAX)
-                {
-                    PlayerImage.color = Color.yellow;
-                }
+                //if (Player.shipHealth < Player.SHIP_HEALTH_MAX)
+                //{
+                //    PlayerImage.color = Color.yellow;
+                //}
             }
             else
             {

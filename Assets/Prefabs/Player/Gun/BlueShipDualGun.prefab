@@ -12,7 +12,7 @@ GameObject:
   m_Layer: 11
   m_Name: LeftGunPoint
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -40,8 +40,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1244255491571041731}
   - component: {fileID: 1244255491571041730}
-  - component: {fileID: 1244255491571041729}
   - component: {fileID: 6913011899919648155}
+  - component: {fileID: 4940670315874273422}
   m_Layer: 11
   m_Name: BlueShipDualGun
   m_TagString: Friendly
@@ -79,6 +79,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -90,6 +92,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -113,31 +116,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1244255491571041729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1244255491571041728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78bef7d91038c9d40a70133203388ca4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isFiring: 0
-  fireLeft: 1
-  bullet: {fileID: -2983410091141955466, guid: 2095a310944b08d4fafd629c65b5dfa7, type: 3}
-  player: {fileID: 0}
-  enemy: {fileID: 0}
-  isPlayerGun: 1
-  bulletSpeed: 10
-  fireRate: 100
-  isOscilatingGun: 1
-  firePoint1: {fileID: 1244255490654801112}
-  ShootSound1: {fileID: 8300000, guid: 1967116c622415c4a80e4a9df7dd723a, type: 3}
-  firePoint2: {fileID: 7272068561396140608}
-  ShootSound2: {fileID: 8300000, guid: 1967116c622415c4a80e4a9df7dd723a, type: 3}
 --- !u!82 &6913011899919648155
 AudioSource:
   m_ObjectHideFlags: 0
@@ -234,6 +212,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4940670315874273422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244255491571041728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 775c4b62706144341a52d59b21036d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 8513750998043598738, guid: 2095a310944b08d4fafd629c65b5dfa7, type: 3}
+  fireRate: 4
+  barrels:
+  - {fileID: 1244255490654801112}
+  - {fileID: 7272068561396140608}
+  roundRobin: 1
 --- !u!1 &6739676765840921179
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,7 +242,7 @@ GameObject:
   m_Layer: 11
   m_Name: RightGunPoint
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
