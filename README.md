@@ -14,5 +14,4 @@ Bullethell space game.
 **Esc** - Quit  
 
 ### Credits
-- My CompFun2 Professor
 - Incompetech
